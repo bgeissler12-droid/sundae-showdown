@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sundae Showdown | Spring Street Treats</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Figtree:wght@400;500;600;700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* Layout: Spring Street Treats' own look. Neon-green sign lettering, black storefront, pink and white from the logo and flyers. */
+:root{
+  --bg:#f6f7f6; --surface:#ffffff; --surface-2:#eef2ef; --line:#dde3de; --fg:#121412; --muted:#5b625c;
+  --brand:#39d353; --brand-ink:#0b0d0b; --brand-text:#15802b; --brand-soft:#e3f8e6;
+  --ink:#0d0f0d; --ink-fg:#ffffff; --ink-muted:#a8b0a9;
+  --pink-text:#c22d76;
+  --frat:#15802b; --frat-soft:#e3f6e6; --soro:#c22d76; --soro-soft:#fde6f1;
+  --c-frat:#24a33a; --c-soro:#e0478f;
+  --good:#1f8a4c; --good-soft:#e2f4e9; --warn:#b26a00; --warn-soft:#fdf1dc; --bad:#b3261e;
+  --display:"Graduate", "Rockwell", Georgia, serif;
+  --body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(20,24,20,.06), 0 4px 14px rgba(20,24,20,.05);
+  /* poster: a printed window card, same in both themes */
+  --p-bg:#ffffff; --p-ink:#111311; --p-red:#24a33a; --p-blue:#15802b; --p-pink:#e0478f; --p-card:#ffffff; --p-line:#d6eedb; --p-neon:#39d353;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f110f; --surface:#171a17; --surface-2:#202420; --line:#2c322d; --fg:#eef2ee; --muted:#a3aca4;
+  --brand:#3fe05c; --brand-ink:#0b0d0b; --brand-text:#5ff07a; --brand-soft:#15301b;
+  --ink:#050605; --ink-fg:#ffffff; --ink-muted:#9aa39b; --pink-text:#f37bb4;
+  --frat:#62e07a; --frat-soft:#163019; --soro:#f37bb4; --soro-soft:#3a1a2b;
+  --c-frat:#2ea845; --c-soro:#e05a98;
+  --good:#4cc47e; --good-soft:#173525; --warn:#f0a73a; --warn-soft:#3a2c14; --bad:#ff7b72;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f110f; --surface:#171a17; --surface-2:#202420; --line:#2c322d; --fg:#eef2ee; --muted:#a3aca4;
+  --brand:#3fe05c; --brand-ink:#0b0d0b; --brand-text:#5ff07a; --brand-soft:#15301b;
+  --ink:#050605; --ink-fg:#ffffff; --ink-muted:#9aa39b; --pink-text:#f37bb4;
+  --frat:#62e07a; --frat-soft:#163019; --soro:#f37bb4; --soro-soft:#3a1a2b;
+  --c-frat:#2ea845; --c-soro:#e05a98;
+  --good:#4cc47e; --good-soft:#173525; --warn:#f0a73a; --warn-soft:#3a2c14; --bad:#ff7b72;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25); color-scheme:dark;}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--brand-text)}
+h1,h2,h3{text-wrap:balance;margin:0}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
+
+/* header */
+.connbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:10px 14px;margin:0 0 16px;border:1px solid var(--good);background:var(--good-soft);border-radius:12px}
+.conn-ok{display:inline-flex;align-items:center;gap:8px;color:var(--good)}.conn-ok b{color:var(--good)}
+.conn-addr{font-weight:700}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--ink-fg);border-bottom:3px solid var(--brand)}
+.top-in{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 0;display:flex;flex-direction:column;gap:10px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--brand);display:grid;place-items:center;flex:none}
+.brand b{font-family:var(--display);font-size:18px;letter-spacing:.02em;line-height:1.1;display:block;color:var(--brand)}
+.brand small{color:var(--ink-muted);font-size:12px;display:block}
+.who{font-size:12px;color:var(--ink-muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -4px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;padding:9px 12px 11px;color:var(--ink-muted);text-decoration:none;font-weight:600;font-size:14px;border-bottom:3px solid transparent;border-radius:0}
+.nav a:hover{color:var(--ink-fg)}
+.nav a[aria-current="page"]{color:var(--ink-fg);border-bottom-color:var(--brand)}
+
+main{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px;display:flex;flex-direction:column;gap:20px}
+
+/* building blocks */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;min-width:0}
+.card h2{font-size:17px;font-weight:800}
+.card h3{font-size:15px;font-weight:700}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.sec-head h1{font-family:var(--display);font-size:clamp(24px,4vw,34px);letter-spacing:.01em;line-height:1.1}
+.sec-head p{margin:6px 0 0;color:var(--muted);max-width:68ch}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pink-text)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.stack{display:flex;flex-direction:column;gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;color:var(--fg);white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.small{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.confirming{background:var(--bad);border-color:var(--bad);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;background:var(--surface-2);color:var(--muted)}
+.pill.frat{background:var(--frat-soft);color:var(--frat)}
+.pill.sorority{background:var(--soro-soft);color:var(--soro)}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.brand{background:var(--brand-soft);color:var(--brand-text)}
+.pill.demo{background:var(--warn-soft);color:var(--warn)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:currentColor}
+label.field{display:flex;flex-direction:column;gap:5px;font-weight:600;font-size:13px;min-width:0}
+label.field span.hint{font-weight:400;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 11px;font-size:14px;min-width:0}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:transparent}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:3px;background:var(--surface-2);gap:2px}
+.seg button{border:0;background:transparent;padding:6px 14px;border-radius:7px;font-weight:700;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+.tablewrap{overflow-x:auto;margin:0 -18px;padding:0 18px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.empty{border:1.5px dashed var(--line);border-radius:var(--radius);padding:28px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:10px;align-items:center}
+.banner{border-radius:10px;padding:10px 14px;font-size:14px;background:var(--warn-soft);color:var(--fg);border:1px solid var(--line)}
+.banner b{color:var(--warn)}
+.chip{display:inline-block;padding:3px 9px;border-radius:7px;background:var(--surface-2);font-size:12.5px;font-weight:600;margin:2px 4px 2px 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;z-index:50;max-width:min(560px,calc(100vw - 32px));box-shadow:0 8px 30px rgba(0,0,0,.25)}
+
+/* overview */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}}
+.hero h1{font-family:var(--display);font-size:clamp(30px,5.4vw,52px);line-height:1.02;letter-spacing:.01em}
+.hero p{font-size:16px;color:var(--muted);max-width:56ch;margin:12px 0 0}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:980px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.stat b{display:block;font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{font-size:12.5px;color:var(--muted);font-weight:600}
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:step}
+@media (max-width:860px){.timeline{grid-template-columns:minmax(0,1fr)}}
+.tl{padding:12px 14px;border-top:3px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.tl.done{border-top-color:var(--good)}
+.tl.now{border-top-color:var(--brand)}
+.tl .when{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.tl b{font-size:14.5px}
+.tl .st{font-size:12.5px;color:var(--muted)}
+.mu{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.mu:last-child{border-bottom:0}
+.mu .vs{font-family:var(--display);font-size:13px;color:var(--muted)}
+.mu .b{text-align:right}
+.team-name{font-weight:700}
+
+/* outreach */
+.org-row td:first-child{width:28px}
+.org-name{font-weight:700}
+.org-sub{font-size:12.5px;color:var(--muted)}
+.preview{background:var(--surface-2);border-radius:10px;padding:14px;white-space:pre-wrap;font-size:14px;max-height:420px;overflow:auto}
+.preview .subj{font-weight:800;margin-bottom:8px;display:block}
+.mergefields{display:flex;flex-wrap:wrap;gap:6px}
+.mergefields code{background:var(--surface-2);padding:2px 7px;border-radius:6px;font-size:12.5px}
+.actionbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between;padding:12px 14px;border-radius:10px;background:var(--brand-soft)}
+
+/* signup */
+.form-shell{max-width:820px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px}
+.form-hero{text-align:left}
+.form-hero h1{font-family:var(--display);font-size:clamp(28px,5vw,44px);line-height:1.05}
+.step{display:flex;flex-direction:column;gap:14px}
+.step-h{display:flex;gap:10px;align-items:baseline}
+.step-n{font-family:var(--display);color:var(--pink-text);font-size:18px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.fields{grid-template-columns:minmax(0,1fr)}}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;background:var(--surface);user-select:none}
+.opt input:checked + span{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.opt input:focus-visible + span{outline:2px solid var(--brand);outline-offset:2px}
+.opt input:disabled + span{opacity:.55;cursor:not-allowed;text-decoration:line-through}
+.weekopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:620px){.weekopts{grid-template-columns:minmax(0,1fr)}}
+.weekopt span{display:flex;flex-direction:column;align-items:flex-start;border-radius:10px;padding:10px 12px;text-decoration:none!important;width:100%}
+.weekopt small{font-weight:500;opacity:.8}
+.weekopt{display:flex}
+.builder{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:18px;align-items:start}
+@media (max-width:720px){.builder{grid-template-columns:minmax(0,1fr)}}
+.sundae-prev{background:var(--surface-2);border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.sundae-prev .nm{font-weight:800;text-align:center}
+.sketch-drop{border:1.5px dashed var(--line);border-radius:10px;padding:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.sketch-drop img{width:96px;height:96px;object-fit:cover;border-radius:8px}
+.confirm-card{text-align:center;padding:32px 18px}
+.confirm-card h2{font-family:var(--display);font-size:28px}
+
+/* signups */
+.sub-card{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.sub-card:last-child{border-bottom:0}
+.sub-art{width:84px;height:84px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;overflow:hidden}
+.sub-art img{width:100%;height:100%;object-fit:cover}
+.spotbar{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.spotbar i{display:block;height:100%}
+
+/* matchups */
+.sched td{vertical-align:top}
+.sched .wk{white-space:nowrap}
+.sched .wk b{display:block}
+.mchip{display:flex;flex-direction:column;gap:2px;padding:9px 11px;border-radius:10px;margin-bottom:8px;border:1px solid var(--line);background:var(--surface)}
+.mchip:last-child{margin-bottom:0}
+.mchip .t{font-weight:700}
+.mchip .why{font-size:12px;color:var(--muted)}
+.mchip.frat{border-left:4px solid var(--frat)}
+.mchip.sorority{border-left:4px solid var(--soro)}
+tr.locked td{background:repeating-linear-gradient(135deg,var(--surface-2) 0 10px,var(--surface) 10px 20px);color:var(--muted)}
+.possetup{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.possetup .item{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:var(--surface-2);padding:6px 8px;border-radius:6px;display:flex;justify-content:space-between;gap:8px;margin-top:6px}
+
+/* scoreboard */
+.result{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.result:last-child{border-bottom:0}
+.rteam{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr) auto;gap:10px;align-items:center}
+@media (max-width:560px){.rteam{grid-template-columns:minmax(0,1fr) auto}.rteam .bar{grid-column:1/-1;order:3}}
+.bar{height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px}
+.win{color:var(--good);font-weight:800}
+.payline{font-size:13.5px;background:var(--good-soft);border-radius:8px;padding:7px 10px}
+.upl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lb td .rank{font-family:var(--display);font-size:15px;color:var(--muted)}
+.lb tr.fin td{background:var(--good-soft)}
+.finale{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:760px){.finale{grid-template-columns:minmax(0,1fr)}}
+.finale .side{border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.finale .side.frat{background:var(--frat-soft)}
+.finale .side.sorority{background:var(--soro-soft)}
+.finale .vsbig{font-family:var(--display);font-size:28px;align-self:center;color:var(--muted)}
+.finalist{display:flex;gap:10px;align-items:center;background:var(--surface);border-radius:10px;padding:8px 10px}
+.finalist .art{width:44px;height:44px;flex:none}
+.sidetotal{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* menu board poster */
+.poster-wrap{overflow-x:auto;margin:0 -18px;padding:0 18px}
+.poster{width:880px;max-width:none;background:var(--p-bg);color:var(--p-ink);border-radius:14px;padding:34px;font-family:var(--body);border:6px solid var(--p-ink);box-shadow:inset 0 0 0 4px var(--p-neon);display:flex;flex-direction:column;gap:22px}
+.poster .ph{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px dashed var(--p-line);padding-bottom:16px}
+.poster .ph .k{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--p-red)}
+.poster .ph h2{font-family:var(--display);font-size:52px;line-height:.95;color:var(--p-ink)}
+.poster .ph .wk{font-family:var(--display);font-size:20px;text-align:right;color:var(--p-red)}
+.poster .side-h{font-family:var(--display);font-size:20px;letter-spacing:.04em}
+.poster .side-h.frat{color:var(--p-blue)}
+.poster .side-h.sorority{color:var(--p-pink)}
+.poster .pm{display:grid;grid-template-columns:1fr 54px 1fr;gap:12px;align-items:stretch}
+.poster .pm.three{grid-template-columns:repeat(3,1fr)}
+.poster .vs{font-family:var(--display);font-size:24px;color:var(--p-pink);display:grid;place-items:center}
+.poster .pc{background:var(--p-card);border:2px solid var(--p-line);border-radius:14px;padding:14px;display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center}
+.poster .pm.three .pc{grid-template-columns:1fr;text-align:center;justify-items:center}
+.poster .pc .img{width:120px;height:120px;border-radius:10px;overflow:hidden;background:#fdeef5;display:grid;place-items:center}
+.poster .pc .img img{width:100%;height:100%;object-fit:cover}
+.poster .pc .ch{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.poster .pc .ch.frat{color:var(--p-blue)}
+.poster .pc .ch.sorority{color:var(--p-pink)}
+.poster .pc .sn{font-family:var(--display);font-size:22px;line-height:1.05;color:var(--p-ink)}
+.poster .pc .ds{font-size:13px;color:#4a514b;margin-top:4px}
+.poster .pfoot{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--p-ink);color:#fff;border-radius:10px;padding:12px 16px;font-weight:700}
+.poster .pfoot .price{font-family:var(--display);font-size:24px;color:var(--p-neon)}
+.poster .lastwk{font-size:13px;color:#4a514b}
+
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.tip{position:fixed;z-index:60;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12.5px;font-weight:600;padding:6px 9px;border-radius:7px;max-width:260px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+[data-tip]{cursor:default}
+.sidecompare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sidecompare .stat span:first-child{display:inline-flex;align-items:center;gap:6px}
+.split{display:flex;gap:2px;height:16px;border-radius:6px;overflow:hidden}
+.split i{display:block;height:100%}
+.hbars{display:flex;flex-direction:column;gap:6px}
+.hb{display:grid;grid-template-columns:90px minmax(0,1fr) 64px;gap:10px;align-items:center;font-size:13px}
+.hb .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb .track{height:12px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.hb .track i{display:block;height:100%;border-radius:0 4px 4px 0}
+.hb .v{text-align:right}
+.about{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;align-items:center}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
+.costs{display:grid;gap:10px}
+.costs div{background:var(--surface-2);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.costs b{font-size:22px;font-weight:800}
+.costs span{font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.card,.stat{transition:border-color .15s}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brandrow">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="24" height="28" viewBox="0 0 22 26"><path d="M4 12 L11 25 L18 12 Z" fill="#ffffff" stroke="#0b0d0b" stroke-width="1.2" stroke-linejoin="round"/><path d="M6.5 15 L15.5 15 M8 18.5 L14 18.5" stroke="#0b0d0b" stroke-width="1"/><path d="M5 12 C3 12 2.5 9 5 8.5 C4.5 5.5 8 4.5 9 6 C9.5 2 14.5 2 14.5 5.5 C17 5 18.5 8 17 9 C19.5 9.5 19 12 17 12 Z" fill="#ffffff" stroke="#0b0d0b" stroke-width="1.2"/><circle cx="9" cy="9.5" r="1.4" fill="#0b0d0b"/><circle cx="13" cy="9.5" r="1.4" fill="#0b0d0b"/></svg>
+        </div>
+        <div><b>Sundae Showdown OS</b><small>Spring Street Treats · Spring 2027</small></div>
+      </div>
+      <div class="who" id="who"></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+  </div>
+</header>
+<main id="main" aria-live="polite"></main>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+window.__SST_SITE={sender:"showdown@springstreettreats.com",filming:false};
+(()=>{
+const SEED={"orgs":{"alpha-chi-omega":{"name":"Alpha Chi Omega","short":"Alpha Chi","side":"sorority","members":220,"ig":"@axomiami","presFirst":"P","presLast":"T","presEmail":"president.alphachiomega@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"alpha-delta-pi":{"name":"Alpha Delta Pi","short":"ADPi","side":"sorority","members":202,"ig":"@adpimiamioh","presFirst":"A","presLast":"B","presEmail":"president.alphadeltapi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"alpha-phi":{"name":"Alpha Phi","short":"Alpha Phi","side":"sorority","members":218,"ig":"@alphaphimiami","presFirst":"A","presLast":"G","presEmail":"president.alphaphi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"alpha-sigma-phi":{"name":"Alpha Sigma Phi","short":"Alpha Sig","side":"frat","members":119,"ig":"@alphasigmiamioh","presFirst":"J","presLast":"S","presEmail":"president.alphasigmaphi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"alpha-xi-delta":{"name":"Alpha Xi Delta","short":"Alpha Xi","side":"sorority","members":210,"ig":"@axidmiami","presFirst":"N","presLast":"G","presEmail":"president.alphaxidelta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"beta-theta-pi":{"name":"Beta Theta Pi","short":"Beta","side":"frat","members":127,"ig":"@beta_miamiu","presFirst":"N","presLast":"S","presEmail":"president.betathetapi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"chi-omega":{"name":"Chi Omega","short":"Chi O","side":"sorority","members":208,"ig":"@miamiuchio","presFirst":"A","presLast":"S","presEmail":"president.chiomega@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-chi":{"name":"Delta Chi","short":"Delta Chi","side":"frat","members":137,"ig":"@deltachi_miamiu","presFirst":"A","presLast":"P","presEmail":"president.deltachi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-delta-delta":{"name":"Delta Delta Delta","short":"Tri Delta","side":"sorority","members":208,"ig":"@trideltamiami","presFirst":"Z","presLast":"M","presEmail":"president.deltadeltadelta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-gamma":{"name":"Delta Gamma","short":"DG","side":"sorority","members":211,"ig":"@deltagamma_miami","presFirst":"L","presLast":"R","presEmail":"president.deltagamma@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-kappa-epsilon":{"name":"Delta Kappa Epsilon","short":"DKE","side":"frat","members":102,"ig":"@dke_kappa","presFirst":"P","presLast":"H","presEmail":"president.deltakappaepsilon@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-upsilon":{"name":"Delta Upsilon","short":"DU","side":"frat","members":116,"ig":"@deltaumiami","presFirst":"J","presLast":"L","presEmail":"president.deltaupsilon@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"delta-zeta":{"name":"Delta Zeta","short":"DZ","side":"sorority","members":213,"ig":"@alphaofdz","presFirst":"O","presLast":"S","presEmail":"president.deltazeta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"gamma-phi-beta":{"name":"Gamma Phi Beta","short":"Gamma Phi","side":"sorority","members":211,"ig":"@gammaphimiami","presFirst":"M","presLast":"T","presEmail":"president.gammaphibeta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"kappa-alpha-theta":{"name":"Kappa Alpha Theta","short":"Theta","side":"sorority","members":215,"ig":"@thetamiami","presFirst":"S","presLast":"J","presEmail":"president.kappaalphatheta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"kappa-delta":{"name":"Kappa Delta","short":"KD","side":"sorority","members":210,"ig":"@kappadeltamiami","presFirst":"S","presLast":"K","presEmail":"president.kappadelta@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"kappa-kappa-gamma":{"name":"Kappa Kappa Gamma","short":"Kappa","side":"sorority","members":220,"ig":"@kappamiamiu","presFirst":"B","presLast":"M","presEmail":"president.kappakappagamma@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"kappa-sigma":{"name":"Kappa Sigma","short":"Kappa Sig","side":"frat","members":115,"ig":"@kappasigmamiamioh","presFirst":"K","presLast":"W","presEmail":"president.kappasigma@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"lambda-chi-alpha":{"name":"Lambda Chi Alpha","short":"Lambda Chi","side":"frat","members":114,"ig":"@lxa_miamioh","presFirst":"W","presLast":"B","presEmail":"president.lambdachialpha@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"phi-mu":{"name":"Phi Mu","short":"Phi Mu","side":"sorority","members":209,"ig":"@phimu_miamioh","presFirst":"A","presLast":"D","presEmail":"president.phimu@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"pi-beta-phi":{"name":"Pi Beta Phi","short":"Pi Phi","side":"sorority","members":209,"ig":"@pibetaphimiami","presFirst":"M","presLast":"P","presEmail":"president.pibetaphi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"pi-kappa-phi":{"name":"Pi Kappa Phi","short":"Pi Kapp","side":"frat","members":103,"ig":"@mu_pikappaphi","presFirst":"S","presLast":"C","presEmail":"president.pikappaphi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"sigma-chi":{"name":"Sigma Chi","short":"Sig Chi","side":"frat","members":140,"ig":"@miamisigmachi","presFirst":"A","presLast":"M","presEmail":"president.sigmachi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"tau-kappa-epsilon":{"name":"Tau Kappa Epsilon","short":"TKE","side":"frat","members":126,"ig":"@tke_miamioh","presFirst":"I","presLast":"A","presEmail":"president.taukappaepsilon@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"theta-chi":{"name":"Theta Chi","short":"Theta Chi","side":"frat","members":101,"ig":"@thetachi_miamiuniversity","presFirst":"J","presLast":"P","presEmail":"president.thetachi@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."},"zeta-tau-alpha":{"name":"Zeta Tau Alpha","short":"ZTA","side":"sorority","members":225,"ig":"@zta_miamiu","presFirst":"K","presLast":"C","presEmail":"president.zetataualpha@miamioh.edu","source":"Miami University Org Directory (Spring 2026 FSL counts). President names and emails withheld from this page."}},"config":{"settings":{"pct":10,"finalistRule":"winners"}},"outreach":{"alpha-chi-omega":{"emailedAt":"2027-02-01T15:00:00.000Z"},"alpha-delta-pi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"alpha-phi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"alpha-sigma-phi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"alpha-xi-delta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"beta-theta-pi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"chi-omega":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-chi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-delta-delta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-gamma":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-kappa-epsilon":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-upsilon":{"emailedAt":"2027-02-01T15:00:00.000Z"},"delta-zeta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"gamma-phi-beta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"kappa-alpha-theta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"kappa-delta":{"emailedAt":"2027-02-01T15:00:00.000Z"},"kappa-kappa-gamma":{"emailedAt":"2027-02-01T15:00:00.000Z"},"kappa-sigma":{"emailedAt":"2027-02-01T15:00:00.000Z"},"lambda-chi-alpha":{"emailedAt":"2027-02-01T15:00:00.000Z"},"phi-mu":{"emailedAt":"2027-02-01T15:00:00.000Z"},"pi-beta-phi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"pi-kappa-phi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"sigma-chi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"tau-kappa-epsilon":{"emailedAt":"2027-02-01T15:00:00.000Z"},"theta-chi":{"emailedAt":"2027-02-01T15:00:00.000Z"},"zeta-tau-alpha":{"emailedAt":"2027-02-01T15:00:00.000Z"}},"submissions":{"alpha-chi-omega":{"orgId":"alpha-chi-omega","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w3","w4"],"bases":["Vanilla","Chocolate"],"vessel":"Gluten-free cone","toppings":["Nerds","Reese’s cups","Chocolate chips","Coconut flakes"],"sauces":["Marshmallow"],"sundaeName":"Peanut Butter Pact","description":"Vanilla and Chocolate soft serve in a gluten-free cone, loaded with Nerds, Reese’s cups, Chocolate chips and Coconut flakes, finished with marshmallow.","submittedAt":"2026-11-23T11:02:00.000Z","demo":true},"alpha-delta-pi":{"orgId":"alpha-delta-pi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w5","w1","w4"],"bases":["Chocolate"],"vessel":"Waffle cone","toppings":["Gummy bears","Heath"],"sauces":["Chocolate"],"sundaeName":"Midterm Meltdown","description":"Chocolate soft serve in a waffle cone, loaded with Gummy bears and Heath, finished with chocolate.","submittedAt":"2026-11-24T10:09:00.000Z","demo":true},"alpha-phi":{"orgId":"alpha-phi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w5","w4","w1"],"bases":["Chocolate"],"vessel":"Cup","toppings":["Cookie dough","Peanuts"],"sauces":["Caramel"],"sundaeName":"Mile Square Mudslide","description":"Chocolate soft serve in a cup, loaded with Cookie dough and Peanuts, finished with caramel.","submittedAt":"2026-11-17T10:53:00.000Z","demo":true},"alpha-sigma-phi":{"orgId":"alpha-sigma-phi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w2","w4","w3"],"bases":["Rotating flavor of the week"],"vessel":"Cup","toppings":["Cinnamon Toast Crunch","Fruity Pebbles","Pineapple"],"sauces":["Raspberry"],"sundaeName":"Pebble Party","description":"Rotating flavor of the week soft serve in a cup, loaded with Cinnamon Toast Crunch, Fruity Pebbles and Pineapple, finished with raspberry.","submittedAt":"2026-11-10T13:59:00.000Z","demo":true},"alpha-xi-delta":{"orgId":"alpha-xi-delta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w5","w2"],"bases":["Rotating flavor of the week"],"vessel":"Cup","toppings":["Peanuts","Cookies & cream","Mini marshmallows"],"sauces":["Rotating cone dip","Marshmallow"],"sundaeName":"Toasted Tailgate","description":"Rotating flavor of the week soft serve in a cup, loaded with Peanuts, Cookies & cream and Mini marshmallows, finished with rotating cone dip and marshmallow.","submittedAt":"2026-11-12T13:25:00.000Z","demo":true},"beta-theta-pi":{"orgId":"beta-theta-pi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w5","w4","w1"],"bases":["Chocolate","Twist"],"vessel":"Cup","toppings":["M&M’s","Waffle cone pieces","Brownie bites"],"sauces":["Caramel"],"sundaeName":"The Swoop","description":"Chocolate and Twist soft serve in a cup, loaded with M&M’s, Waffle cone pieces and Brownie bites, finished with caramel.","submittedAt":"2026-11-13T10:34:00.000Z","demo":true},"chi-omega":{"orgId":"chi-omega","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w4","w1"],"bases":["Rotating flavor of the week","Chocolate"],"vessel":"Sugar cone","toppings":["Heath","Waffle cone pieces","Gummy bears","Cocoa Pebbles"],"sauces":["Chocolate cone dip"],"sundaeName":"Cherry on Top","description":"Rotating flavor of the week and Chocolate soft serve in a sugar cone, loaded with Heath, Waffle cone pieces, Gummy bears and Cocoa Pebbles, finished with chocolate cone dip.","submittedAt":"2026-11-20T17:41:00.000Z","demo":true},"delta-chi":{"orgId":"delta-chi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"tau-kappa-epsilon","weeks":["w1","w4","w5"],"bases":["Twist","Chocolate"],"vessel":"Gluten-free cone","toppings":["Apple pie","Fruity Pebbles","Whipped cream","Waffle cone pieces"],"sauces":["Raspberry"],"sundaeName":"Sunday Reset","description":"Twist and Chocolate soft serve in a gluten-free cone, loaded with Apple pie, Fruity Pebbles, Whipped cream and Waffle cone pieces, finished with raspberry.","submittedAt":"2026-11-06T15:16:00.000Z","demo":true},"delta-delta-delta":{"orgId":"delta-delta-delta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w2","w1"],"bases":["Chocolate"],"vessel":"Waffle cone","toppings":["Gummy bears","Cinnamon Toast Crunch","Heath"],"sauces":["Chocolate","Rotating cone dip"],"sundaeName":"Strawberry Shortcut","description":"Chocolate soft serve in a waffle cone, loaded with Gummy bears, Cinnamon Toast Crunch and Heath, finished with chocolate and rotating cone dip.","submittedAt":"2026-11-17T19:14:00.000Z","demo":true},"delta-gamma":{"orgId":"delta-gamma","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"kappa-alpha-theta","weeks":["w2","w3"],"bases":["Rotating flavor of the week","Vanilla"],"vessel":"Sugar cone","toppings":["Nerds","Cherry","Strawberry"],"sauces":["Rotating cone dip"],"sundaeName":"Slant Walk Swirl","description":"Rotating flavor of the week and Vanilla soft serve in a sugar cone, loaded with Nerds, Cherry and Strawberry, finished with rotating cone dip.","submittedAt":"2026-11-09T12:45:00.000Z","demo":true},"delta-kappa-epsilon":{"orgId":"delta-kappa-epsilon","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w3","w1","w4"],"bases":["Vanilla"],"vessel":"Waffle cone","toppings":["Peanuts","Mini marshmallows"],"sauces":["Caramel"],"sundaeName":"Late Night at King","description":"Vanilla soft serve in a waffle cone, loaded with Peanuts and Mini marshmallows, finished with caramel.","submittedAt":"2026-11-12T13:27:00.000Z","demo":true},"delta-upsilon":{"orgId":"delta-upsilon","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w4","w5"],"bases":["Rotating flavor of the week"],"vessel":"Sugar cone","toppings":["Waffle cone pieces","Coconut flakes"],"sauces":["Caramel"],"sundaeName":"Moonlight Mixup","description":"Rotating flavor of the week soft serve in a sugar cone, loaded with Waffle cone pieces and Coconut flakes, finished with caramel.","submittedAt":"2026-11-17T18:16:00.000Z","demo":true},"delta-zeta":{"orgId":"delta-zeta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"gamma-phi-beta","weeks":["w5","w2","w3"],"bases":["Rotating flavor of the week"],"vessel":"Waffle cone","toppings":["Mini marshmallows","Cinnamon Toast Crunch","Banana","Maraschino cherries"],"sauces":["Raspberry","Marshmallow"],"sundaeName":"The Hub Split","description":"Rotating flavor of the week soft serve in a waffle cone, loaded with Mini marshmallows, Cinnamon Toast Crunch, Banana and Maraschino cherries, finished with raspberry and marshmallow.","submittedAt":"2026-11-06T09:17:00.000Z","demo":true},"gamma-phi-beta":{"orgId":"gamma-phi-beta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"delta-zeta","weeks":["w5","w3","w4"],"bases":["Chocolate"],"vessel":"Gluten-free cone","toppings":["Waffle cone pieces","Butterfinger","M&M’s"],"sauces":["Peanut butter"],"sundaeName":"Champions Cup","description":"Chocolate soft serve in a gluten-free cone, loaded with Waffle cone pieces, Butterfinger and M&M’s, finished with peanut butter.","submittedAt":"2026-11-07T18:23:00.000Z","demo":true},"kappa-alpha-theta":{"orgId":"kappa-alpha-theta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"delta-gamma","weeks":["w4","w5"],"bases":["Rotating flavor of the week","Vanilla"],"vessel":"Sugar cone","toppings":["Butterfinger","Chocolate chips","Gummy bears"],"sauces":["Raspberry"],"sundaeName":"Formal Fudge","description":"Rotating flavor of the week and Vanilla soft serve in a sugar cone, loaded with Butterfinger, Chocolate chips and Gummy bears, finished with raspberry.","submittedAt":"2026-11-07T14:26:00.000Z","demo":true},"kappa-delta":{"orgId":"kappa-delta","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"alpha-xi-delta","weeks":["w5","w3","w1"],"bases":["Rotating flavor of the week"],"vessel":"Sugar cone","toppings":["Heath","Fruity Pebbles"],"sauces":["Chocolate cone dip"],"sundaeName":"Cookie Crown","description":"Rotating flavor of the week soft serve in a sugar cone, loaded with Heath and Fruity Pebbles, finished with chocolate cone dip.","submittedAt":"2026-11-10T20:52:00.000Z","demo":true},"kappa-kappa-gamma":{"orgId":"kappa-kappa-gamma","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w2","w3"],"bases":["Vanilla"],"vessel":"Sugar cone","toppings":["Butterfinger","Cocoa Pebbles"],"sauces":["Butterscotch"],"sundaeName":"Bid Day Brownie","description":"Vanilla soft serve in a sugar cone, loaded with Butterfinger and Cocoa Pebbles, finished with butterscotch.","submittedAt":"2026-11-14T20:35:00.000Z","demo":true},"kappa-sigma":{"orgId":"kappa-sigma","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w4","w5"],"bases":["Rotating flavor of the week","Vanilla"],"vessel":"Cup","toppings":["Fruity Pebbles","Strawberry","Maraschino cherries","Cookie dough"],"sauces":["Butterscotch"],"sundaeName":"Brick Street Blondie","description":"Rotating flavor of the week and Vanilla soft serve in a cup, loaded with Fruity Pebbles, Strawberry, Maraschino cherries and Cookie dough, finished with butterscotch.","submittedAt":"2026-11-14T11:59:00.000Z","demo":true},"lambda-chi-alpha":{"orgId":"lambda-chi-alpha","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"pi-kappa-phi","weeks":["w5","w4"],"bases":["Rotating flavor of the week"],"vessel":"Gluten-free cone","toppings":["Cap’n Crunch","Fruity Pebbles","Peanuts","Banana"],"sauces":["Hot fudge"],"sundaeName":"Golden Hour","description":"Rotating flavor of the week soft serve in a gluten-free cone, loaded with Cap’n Crunch, Fruity Pebbles, Peanuts and Banana, finished with hot fudge.","submittedAt":"2026-11-03T17:21:00.000Z","demo":true},"phi-mu":{"orgId":"phi-mu","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w4","w3","w2"],"bases":["Vanilla","Rotating flavor of the week"],"vessel":"Gluten-free cone","toppings":["Cocoa Pebbles","Pecans"],"sauces":["Rotating cone dip"],"sundaeName":"Spring Fling","description":"Vanilla and Rotating flavor of the week soft serve in a gluten-free cone, loaded with Cocoa Pebbles and Pecans, finished with rotating cone dip.","submittedAt":"2026-11-12T10:56:00.000Z","demo":true},"pi-beta-phi":{"orgId":"pi-beta-phi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w4","w2","w3"],"bases":["Vanilla","Chocolate"],"vessel":"Sugar cone","toppings":["Fruity Pebbles","Maraschino cherries"],"sauces":["Marshmallow"],"sundaeName":"The Rivalry","description":"Vanilla and Chocolate soft serve in a sugar cone, loaded with Fruity Pebbles and Maraschino cherries, finished with marshmallow.","submittedAt":"2026-11-21T19:10:00.000Z","demo":true},"pi-kappa-phi":{"orgId":"pi-kappa-phi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"lambda-chi-alpha","weeks":["w3","w4"],"bases":["Chocolate","Rotating flavor of the week"],"vessel":"Cake cone","toppings":["Heath","Cap’n Crunch","Cocoa Pebbles"],"sauces":["Caramel"],"sundaeName":"Uptown Swirl","description":"Chocolate and Rotating flavor of the week soft serve in a cake cone, loaded with Heath, Cap’n Crunch and Cocoa Pebbles, finished with caramel.","submittedAt":"2026-11-04T11:12:00.000Z","demo":true},"sigma-chi":{"orgId":"sigma-chi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w2","w3"],"bases":["Twist"],"vessel":"Waffle cone","toppings":["Twinkle nut crunch","Brownie bites","Waffle cone pieces"],"sauces":["Caramel"],"sundaeName":"Red Brick Road","description":"Twist soft serve in a waffle cone, loaded with Twinkle nut crunch, Brownie bites and Waffle cone pieces, finished with caramel.","submittedAt":"2026-11-17T13:17:00.000Z","demo":true},"tau-kappa-epsilon":{"orgId":"tau-kappa-epsilon","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"delta-chi","weeks":["w5","w4"],"bases":["Twist"],"vessel":"Cake cone","toppings":["Gummy worms","Chocolate chips","Cookies & cream","Cap’n Crunch"],"sauces":["Chocolate cone dip","Butterscotch"],"sundaeName":"Paw Print Parfait","description":"Twist soft serve in a cake cone, loaded with Gummy worms, Chocolate chips, Cookies & cream and Cap’n Crunch, finished with chocolate cone dip and butterscotch.","submittedAt":"2026-11-07T19:32:00.000Z","demo":true},"theta-chi":{"orgId":"theta-chi","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"alpha-sigma-phi","weeks":["w1","w4"],"bases":["Rotating flavor of the week"],"vessel":"Cup","toppings":["Chocolate chips","Coconut flakes"],"sauces":["Chocolate","Caramel"],"sundaeName":"Uptown Crunch","description":"Rotating flavor of the week soft serve in a cup, loaded with Chocolate chips and Coconut flakes, finished with chocolate and caramel.","submittedAt":"2026-11-10T15:33:00.000Z","demo":true},"zeta-tau-alpha":{"orgId":"zeta-tau-alpha","contactName":"Demo contact","contactRole":"President","contactEmail":"","contactPhone":"","rival":"","weeks":["w5","w4","w2"],"bases":["Rotating flavor of the week","Chocolate"],"vessel":"Sugar cone","toppings":["Cocoa Pebbles","Maraschino cherries","Pecans"],"sauces":["Chocolate"],"sundaeName":"Sweet Victory","description":"Rotating flavor of the week and Chocolate soft serve in a sugar cone, loaded with Cocoa Pebbles, Maraschino cherries and Pecans, finished with chocolate.","submittedAt":"2026-11-18T13:12:00.000Z","demo":true}},"season":{"schedule":{"generatedAt":"2026-11-15T20:08:14.980Z","weeks":{"w1":{"frat":[{"a":"theta-chi","b":"alpha-sigma-phi","reason":"Theta Chi picked Alpha Sig","fit":"Neither preferred week had room"}],"sorority":[{"a":"kappa-kappa-gamma","b":"alpha-phi","reason":"Closest in size (220 vs 218 members)","fit":"One chapter picked this week"}]},"w2":{"frat":[{"a":"kappa-sigma","b":"delta-kappa-epsilon","reason":"Closest in size (115 vs 102 members)","fit":"Neither preferred week had room"}],"sorority":[{"a":"phi-mu","b":"delta-delta-delta","reason":"Closest in size (209 vs 208 members)","fit":"Both chapters picked this week"}]},"w3":{"frat":[{"a":"sigma-chi","b":"beta-theta-pi","reason":"Closest in size (140 vs 127 members)","fit":"One chapter picked this week"}],"sorority":[{"a":"delta-zeta","b":"gamma-phi-beta","reason":"Picked each other","fit":"Both chapters picked this week"}]},"w4":{"frat":[{"a":"lambda-chi-alpha","b":"pi-kappa-phi","reason":"Picked each other","fit":"Both chapters picked this week"}],"sorority":[{"a":"kappa-alpha-theta","b":"delta-gamma","reason":"Picked each other","fit":"One chapter picked this week"}]},"w5":{"frat":[{"a":"delta-chi","b":"tau-kappa-epsilon","reason":"Picked each other","fit":"Both chapters picked this week"}],"sorority":[{"a":"kappa-delta","b":"alpha-xi-delta","reason":"KD picked Alpha Xi","fit":"Both chapters picked this week"}]}},"notes":[],"waitlist":{"frat":["delta-upsilon"],"sorority":["zeta-tau-alpha","chi-omega","pi-beta-phi","alpha-chi-omega","alpha-delta-pi"]},"pulledIn":[]}},"results":{"w1":{"weekId":"w1","fileName":"items-2027-03-08-2027-03-14.csv","demo":false,"scoredAt":"2026-11-15T20:08:14.980Z","teams":{"theta-chi":{"raised":902.9,"sundaeQty":69,"sundaeSales":534.75,"otherSales":368.15,"orders":95,"tagOrders":36},"alpha-sigma-phi":{"raised":684.9,"sundaeQty":54,"sundaeSales":418.5,"otherSales":266.4,"orders":80,"tagOrders":31},"kappa-kappa-gamma":{"raised":1500.65,"sundaeQty":118,"sundaeSales":914.5,"otherSales":586.15,"orders":169,"tagOrders":63},"alpha-phi":{"raised":1211.25,"sundaeQty":95,"sundaeSales":736.25,"otherSales":475,"orders":131,"tagOrders":51}},"rows":1060,"orders":693,"showdownOrders":475,"unknownTags":0},"w2":{"weekId":"w2","fileName":"items-2027-03-15-2027-03-21.csv","demo":false,"scoredAt":"2026-11-15T20:08:14.996Z","teams":{"kappa-sigma":{"raised":916.35,"sundaeQty":68,"sundaeSales":527,"otherSales":389.35,"orders":95,"tagOrders":36},"delta-kappa-epsilon":{"raised":850.55,"sundaeQty":65,"sundaeSales":503.75,"otherSales":346.8,"orders":94,"tagOrders":35},"phi-mu":{"raised":1160.55,"sundaeQty":95,"sundaeSales":736.25,"otherSales":424.3,"orders":135,"tagOrders":51},"delta-delta-delta":{"raised":1122.95,"sundaeQty":87,"sundaeSales":674.25,"otherSales":448.7,"orders":121,"tagOrders":44}},"rows":989,"orders":641,"showdownOrders":445,"unknownTags":0},"w3":{"weekId":"w3","fileName":"items-2027-03-29-2027-04-04.csv","demo":false,"scoredAt":"2026-11-15T20:08:15.008Z","teams":{"sigma-chi":{"raised":846.55,"sundaeQty":66,"sundaeSales":511.5,"otherSales":335.05,"orders":91,"tagOrders":32},"beta-theta-pi":{"raised":837.6,"sundaeQty":69,"sundaeSales":534.75,"otherSales":302.85,"orders":93,"tagOrders":34},"delta-zeta":{"raised":1415.25,"sundaeQty":108,"sundaeSales":837,"otherSales":578.25,"orders":147,"tagOrders":56},"gamma-phi-beta":{"raised":1229.6,"sundaeQty":90,"sundaeSales":697.5,"otherSales":532.1,"orders":129,"tagOrders":48}},"rows":1037,"orders":671,"showdownOrders":460,"unknownTags":0}},"photos":{}};
+const KEY="sst-showdown-prototype-v1";
+let saved=null; if(KEY){try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){}}
+const D=saved||JSON.parse(JSON.stringify(SEED));
+const persist=()=>{if(!KEY)return;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){console.warn("could not save",e)}};
+window.__sstReset=()=>{if(KEY){try{localStorage.removeItem(KEY)}catch(e){}}location.hash="overview";location.reload()};
+const L={};                       // "c" or "c/id" -> Set(fn)
+const on=(k,fn)=>{(L[k]||(L[k]=new Set())).add(fn);return()=>L[k].delete(fn)};
+const clone=(v)=>v==null?v:JSON.parse(JSON.stringify(v));
+const snapC=(c)=>({docs:Object.entries(D[c]||{}).map(([id,d])=>({id,exists:true,data:()=>clone(d)}))});
+const snapD=(c,id)=>{const d=(D[c]||{})[id];return{id,exists:d!==undefined,data:()=>clone(d)}};
+const fire=(c,id)=>setTimeout(()=>{persist();(L[c]||[]).forEach(f=>f(snapC(c)));(L[c+'/'+id]||[]).forEach(f=>f(snapD(c,id)))},0);
+const db={
+  collection:(c)=>({onSnapshot:(fn)=>{setTimeout(()=>fn(snapC(c)),0);return on(c,fn)}}),
+  doc:(p)=>{const [c,id]=p.split('/');return{
+    onSnapshot:(fn)=>{setTimeout(()=>fn(snapD(c,id)),0);return on(c+'/'+id,fn)},
+    get:async()=>snapD(c,id),
+    set:async(v)=>{v=clone(v);if(c==='season'&&id==='schedule'&&v&&v.generatedAt)v.generatedAt='2027-02-24T15:05:00.000Z';   // in-story date (matchups go out Feb 24)
+      (D[c]||(D[c]={}))[id]=v;fire(c,id)},
+    update:async(v)=>{(D[c]||(D[c]={}))[id]={...((D[c]||{})[id]||{}),...clone(v)};fire(c,id)},
+    delete:async()=>{if(D[c])delete D[c][id];fire(c,id)}}}};
+let n=0;
+const toData=(f)=>new Promise((r,j)=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=j;fr.readAsDataURL(f)});
+const assets={upload:async(file)=>({id:'a'+Date.now()+(++n),url:KEY&&file.size<1500000?await toData(file):URL.createObjectURL(file)})};
+const downloads={save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(data instanceof Blob?data:new Blob([data]));a.download=filename;document.body.appendChild(a);a.click();a.remove()}};
+const user={canEdit:()=>true,isOwner:()=>true};
+window.__sstDB=D;
+window.claude={use:async(k)=>({db,user,assets,downloads})[k]||null};
+if(KEY)document.addEventListener("DOMContentLoaded",()=>{const b=document.createElement("div");b.className="proto";
+  b.innerHTML='<span><b>Prototype</b> built for Spring Street Treats by ESP 351. Sample data; email sending is simulated. Your changes save in this browser.</span><span class="proto-a"><a href="/items-2027-04-05-2027-04-11.csv" download>Sample Square report (Week 4)</a><button type="button" id="proto-reset">Reset demo</button></span>';
+  document.body.insertBefore(b,document.body.firstChild);
+  const st=document.createElement("style");st.textContent=".proto{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;align-items:center;padding:7px 16px;background:#fff6d6;color:#3d3200;font:500 13px/1.4 Figtree,system-ui,sans-serif;border-bottom:1px solid #ecd98a}.proto a{color:#3d3200;font-weight:700}.proto-a{display:flex;gap:14px;align-items:center}.proto button{font:700 13px Figtree,system-ui,sans-serif;padding:4px 10px;border-radius:8px;border:1px solid #c9b45a;background:#fff;color:#3d3200;cursor:pointer}";
+  document.head.appendChild(st);
+  let armed=false;document.getElementById("proto-reset").onclick=e=>{if(!armed){armed=true;e.target.textContent="Click again to reset";setTimeout(()=>{armed=false;e.target.textContent="Reset demo"},3000);return}window.__sstReset()};});
+})();
+</script>
+<script>
+/* ---------------- constants ---------------- */
+const WEEKS=[
+  {id:'w1',label:'Week 1',range:'Mar 8 – 14',play:true},
+  {id:'w2',label:'Week 2',range:'Mar 15 – 21',play:true},
+  {id:'break',label:'Spring break',range:'Mar 22 – 28',locked:true},
+  {id:'w3',label:'Week 3',range:'Mar 29 – Apr 4',play:true},
+  {id:'w4',label:'Week 4',range:'Apr 5 – 11',play:true},
+  {id:'w5',label:'Week 5',range:'Apr 12 – 18',play:true},
+  {id:'finals',label:'Grand Finale',range:'Apr 19 – 25',finals:true}
+];
+const PLAY=WEEKS.filter(w=>w.play);
+const SPOTS=10, PER_WEEK=1;
+const SIDES={frat:{label:'Fraternities',one:'Fraternity',pill:'frat'},sorority:{label:'Sororities',one:'Sorority',pill:'sorority'}};
+const DEFAULTS={
+  pct:10, finalistRule:'winners', sundaePrice:7.75, deadline:'2027-02-21', formLink:'springstreettreats.com/showdown',
+  limits:{bases:2,toppings:4,sauces:2},
+  emailSubject:'{chapter} is invited to the Spring Street Treats Sundae Showdown',
+  emailBody:`Hi {first_name},
+
+I'm Allen, owner of Spring Street Treats on W Spring St. This spring we're running the Sundae Showdown, and we'd love {chapter} in it.
+
+How it works:
+- Your chapter designs its own sundae from our menu and names it.
+- For one week, your sundae goes on our menu next to a rival chapter's sundae.
+- The chapter that sells more of its sundae wins the week. The winner takes {pct}% of both chapters' sundae sales, plus the Showdown trophy.
+- Win or lose, any other order where someone tells us they're with {chapter} earns your chapter {pct}% too.
+- The top 3 fraternities and top 3 sororities meet in the Grand Finale in April. The best-selling finale sundae goes on our menu next season.
+
+We're inviting the 11 largest fraternities and 15 largest sororities at Miami. The first 10 on each side to sign up get a spot.
+
+Sign up by {deadline}: {form_link}
+You'll pick your rival, your week and build your sundae right in the form.
+
+Have any questions at all? Reply to this email or call us at (513) 839-8021. We're happy to walk you through it.
+
+Thanks,
+Allen Ansorg
+Spring Street Treats`,
+  dmBody:`Hey {chapter}! Spring Street Treats here. This spring we're running the Sundae Showdown: your chapter designs a sundae, it goes head to head with another chapter's sundae for a week, and whoever sells more takes {pct}% of both sundaes' sales plus the trophy. We emailed {first_name} the details. Sign up by {deadline}: {form_link}. Any questions, just DM us back!`
+};
+/* From springstreettreats.com/menu, read 2026-11-15 */
+const MENU={
+  bases:['Vanilla','Chocolate','Twist','Rotating flavor of the week'],
+  vessels:['Cup','Cake cone','Sugar cone','Waffle cone','Gluten-free cone'],
+  sauces:['Butterscotch','Caramel','Chocolate','Hot fudge','Marshmallow','Peanut butter','Raspberry','Chocolate cone dip','Rotating cone dip'],
+  toppingsStd:['Banana','Cherry','Cap’n Crunch','Cinnamon Toast Crunch','Cocoa Pebbles','Coconut flakes','Cookies & cream','Fruity Pebbles','Graham crackers','Gummy bears','Gummy worms','Mini marshmallows','Nerds','Peanuts','Pineapple','Strawberry','Twinkle nut crunch','Waffle cone pieces'],
+  toppingsPrem:['Apple pie','Brownie bites','Butterfinger','Chocolate chips','Cookie dough','Heath','M&M’s','Maraschino cherries','Pecans','Reese’s cups','Whipped cream']
+};
+MENU.toppings=[...MENU.toppingsStd,...MENU.toppingsPrem];
+const DEMO_NAMES=['The Swoop','Uptown Crunch','Formal Fudge','Bid Day Brownie','Slant Walk Swirl','Red Brick Road','Mile Square Mudslide','The Hub Split','Late Night at King','Spring Fling','Toasted Tailgate','Pebble Party','Sunday Reset','Midterm Meltdown','Peanut Butter Pact','Sweet Victory','The Rivalry','Golden Hour','Strawberry Shortcut','Uptown Swirl','Cookie Crown','Cherry on Top','Moonlight Mixup','Champions Cup','Paw Print Parfait','Brick Street Blondie'];
+
+const CONTACT={phone:'(513) 839-8021',email:'info@springstreettreats.com'};
+/* ---------------- state ---------------- */
+const SITE=!!window.__SST_SITE; const FILM=SITE&&window.__SST_SITE.filming!==false; /* filming copy: Instagram opens in the same tab */ const SENDER=(window.__SST_SITE&&window.__SST_SITE.sender)||'showdown@springstreettreats.com';
+const S={
+  orgs:{}, settings:structuredClone(DEFAULTS), outreach:{}, subs:{}, schedule:null, results:{}, photos:{},
+  db:null, assets:null, user:null, downloads:null, canEdit:false, canWrite:false, conn:'connecting',
+  loaded:{orgs:false}, timedOut:false, route:'overview',
+  ui:{lbFilter:'all', previewOrg:'', selected:{}, posterWeek:'w1', signupDone:null, sketchFile:null, sketchUrl:null, prevWeek:null}
+};
+
+/* ---------------- helpers ---------------- */
+const $=s=>document.querySelector(s);
+const h=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'$'+(Math.round((n||0)*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0=n=>'$'+Math.round(n||0).toLocaleString('en-US');
+const norm=s=>String(s||'').toLowerCase().replace(/[’']/g,'').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').trim();
+const fmtDate=iso=>{try{return new Date(iso+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return iso}};
+const orgList=side=>Object.values(S.orgs).filter(o=>!side||o.side===side).sort((a,b)=>b.members-a.members||a.name.localeCompare(b.name));
+const org=id=>S.orgs[id]||{id,name:id,short:id,side:'frat',members:0};
+const maskEmail=e=>{if(!e)return '';const [u,d]=e.split('@');return (u||'').slice(0,1)+'••••@'+(d||'')};
+function toast(msg,ms=3800){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,ms)}
+function mulberry(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hashStr(s){let x=2166136261;for(const c of s){x^=c.charCodeAt(0);x=Math.imul(x,16777619)}return x>>>0}
+function pick(r,arr){return arr[Math.floor(r()*arr.length)]}
+function shuffle(r,arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function merge(tpl,o){
+  const st=S.settings;
+  return String(tpl||'').replace(/\{(\w+)\}/g,(m,k)=>({first_name:o.presFirst||'there',chapter:o.name,short:o.short,members:o.members,deadline:fmtDate(st.deadline).replace(/, \d{4}$/,''),form_link:st.formLink,pct:st.pct}[k] ?? m));
+}
+function needEdit(){if(!S.canEdit){toast('Only Spring Street Treats staff (editors of this page) can do that.');return false}return true}
+function armConfirm(btn,label,fn){
+  if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove('confirming');btn.textContent=btn.dataset.orig;fn();return}
+  btn.dataset.orig=btn.textContent;btn.dataset.armed='1';btn.classList.add('confirming');btn.textContent=label;
+  setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove('confirming');btn.textContent=btn.dataset.orig}},4500);
+}
+
+/* ---------------- sign-up field ---------------- */
+function field(side){
+  const subs=Object.values(S.subs).filter(s=>org(s.orgId).side===side).sort((a,b)=>String(a.submittedAt).localeCompare(String(b.submittedAt)));
+  return {in:subs.slice(0,SPOTS),wait:subs.slice(SPOTS),all:subs};
+}
+function placeOf(orgId){
+  const o=org(orgId);const f=field(o.side);
+  const i=f.in.findIndex(s=>s.orgId===orgId); if(i>=0) return {spot:true,n:i+1};
+  const j=f.wait.findIndex(s=>s.orgId===orgId); if(j>=0) return {spot:false,n:j+1};
+  return null;
+}
+
+/* ---------------- sundae art ---------------- */
+const FLAVOR_COLORS=[[/choc/,'#6b3f2a'],[/vanilla/,'#f7ecd2'],[/rotating/,'#c7b3ee']];
+const SAUCE_COLORS=[[/butterscotch/,'#d99a3a'],[/caramel/,'#c98a2b'],[/rotating/,'#8e5bd6'],[/cone dip|hot fudge|chocolate/,'#3a1f14'],[/marsh/,'#fbfbf7'],[/peanut/,'#b07a3b'],[/rasp/,'#c2264b']];
+function colorFor(name,table,fallback){const n=norm(name);for(const [re,c] of table) if(re.test(n)) return c;return fallback||`hsl(${hashStr(n)%360} 55% 65%)`}
+function toppingStyle(t){const n=norm(t);
+  if(/whipped/.test(n))return{kind:'whip'};
+  if(/maraschino|^cherry$/.test(n))return{kind:'cherry'};
+  if(/nerds|fruity|gummy|m and m/.test(n))return{kind:'bits',colors:['#e94b5f','#f6c445','#4cb5f5','#7ed37a','#b36bd9'],shape:/m and m|nerds/.test(n)?'dot':'bar'};
+  if(/reese/.test(n))return{kind:'bits',colors:['#d07a2a','#3b2418'],shape:'chunk'};
+  if(/cocoa|chocolate chips/.test(n))return{kind:'bits',colors:['#3b2418'],shape:'dot'};
+  if(/cookie dough/.test(n))return{kind:'bits',colors:['#d8b98a','#3b2418'],shape:'chunk'};
+  if(/cookies and cream|brownie/.test(n))return{kind:'bits',colors:['#2e1d14','#f2efe8'],shape:'chunk'};
+  if(/heath|butterfinger/.test(n))return{kind:'bits',colors:['#d39a3a','#3b2418'],shape:'chunk'};
+  if(/peanut|pecan|nut/.test(n))return{kind:'bits',colors:['#c08a4c','#a87436'],shape:'nut'};
+  if(/graham|waffle|crunch|toast|apple/.test(n))return{kind:'bits',colors:['#d9a55a','#c48a3e'],shape:'chunk'};
+  if(/coconut/.test(n))return{kind:'bits',colors:['#ffffff','#f4efe6'],shape:'bar'};
+  if(/marshmallow/.test(n))return{kind:'bits',colors:['#ffffff'],shape:'chunk'};
+  if(/banana/.test(n))return{kind:'bits',colors:['#f6e08a'],shape:'dot'};
+  if(/pineapple/.test(n))return{kind:'bits',colors:['#f2c14e'],shape:'chunk'};
+  if(/strawberry/.test(n))return{kind:'bits',colors:['#d6304a'],shape:'chunk'};
+  return {kind:'bits',colors:['#d08a3a'],shape:'bar'};
+}
+let svgN=0;
+function sundaeSVG(sub,size=120){
+  const id='sv'+(++svgN); sub=sub||{};
+  const bases=sub.bases&&sub.bases.length?sub.bases:['Vanilla'];
+  let cols=[]; for(const b of bases){if(norm(b)==='twist')cols.push('#f7ecd2','#6b3f2a');else cols.push(colorFor(b,FLAVOR_COLORS,'#c7b3ee'))}
+  cols=[...new Set(cols)];
+  const fill=cols.length>1?`url(#${id}p)`:cols[0]; const sw=7;
+  const pat=cols.length>1?`<pattern id="${id}p" width="${sw*cols.length}" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">${cols.map((c,i)=>`<rect x="${i*sw}" width="${sw}" height="10" fill="${c}"/>`).join('')}</pattern>`:'';
+  const v=norm(sub.vessel||'cup'); let holder='';
+  if(!/cone/.test(v)){
+    holder=`<path d="M19 80 L101 80 L93 125 Q60 131 27 125 Z" fill="#ffffff" stroke="rgba(0,0,0,.18)" stroke-width="1.2"/><path d="M21.3 93 L98.7 93 L97.2 102 L22.8 102 Z" fill="#24a33a"/><path d="M22.9 103 L97.1 103 L96.7 106 L23.3 106 Z" fill="#e0478f"/><rect x="16" y="76" width="88" height="7" rx="3.5" fill="#f4f4f4" stroke="rgba(0,0,0,.16)" stroke-width="1"/>`;
+  } else if(/cake/.test(v)){
+    holder=`<path d="M30 80 L90 80 L85 126 L35 126 Z" fill="#f0cf8a" stroke="rgba(0,0,0,.12)" stroke-width="1"/>${[92,101,110,119].map(y=>{const d=(y-80)*0.11;return `<path d="M${(31+d).toFixed(1)} ${y} L${(89-d).toFixed(1)} ${y}" stroke="#d9b06a" stroke-width="2"/>`}).join('')}<rect x="27" y="76" width="66" height="8" rx="3" fill="#e8bf74"/>`;
+  } else {
+    const c=/sugar/.test(v)?'#c98a3e':/gluten/.test(v)?'#dcb27a':'#e2ac62', l=/sugar/.test(v)?'#a96f2a':'#c28a3e';
+    holder=`<clipPath id="${id}c"><path d="M27 80 L93 80 L60 132 Z"/></clipPath><path d="M27 80 L93 80 L60 132 Z" fill="${c}"/><g clip-path="url(#${id}c)" stroke="${l}" stroke-width="1.8">${[-24,-12,0,12,24,36].map(k=>`<path d="M${27+k} 80 L${67+k} 132"/><path d="M${93-k} 80 L${53-k} 132"/>`).join('')}</g><rect x="24" y="76" width="72" height="8" rx="4" fill="${l}"/>`;
+  }
+  const tiers=['M24 82 Q15 82 19 72 Q23 64 35 64 L85 64 Q97 64 101 72 Q105 82 96 82 Z','M33 67 Q25 67 28 58 Q31 51 41 51 L79 51 Q89 51 92 58 Q95 67 87 67 Z','M42 54 Q36 54 38 46 Q40 39 49 39 L71 39 Q80 39 82 46 Q84 54 78 54 Z','M51 42 Q48 34 56 30 Q61 28 61 21 Q69 27 67 33 Q72 37 68 42 Z'];
+  const shine=['M30 70 Q46 66 62 67','M38 56 Q50 53 62 54','M46 44 Q54 42 62 43'];
+  const swirl=tiers.map(d=>`<path d="${d}" fill="${fill}" stroke="rgba(0,0,0,.14)" stroke-width="1"/>`).join('')+shine.map(d=>`<path d="${d}" stroke="#ffffff" stroke-opacity=".5" stroke-width="2.4" fill="none" stroke-linecap="round"/>`).join('');
+  const drizzle=(sub.sauces||[]).slice(0,2).map((s,i)=>{const c=colorFor(s,SAUCE_COLORS,'#8a4b2a');const y=i?52:65;const xs=i?[46,60,74]:[34,50,68,86];const w=i?[38,82]:[22,98];
+    return `<path d="M${w[0]} ${y+1} Q${(w[0]+60)/2} ${y-4} 60 ${y} T${w[1]} ${y}" stroke="${c}" stroke-width="5" fill="none" stroke-linecap="round"/>`+xs.map((x,j)=>`<rect x="${x-2.5}" y="${y}" width="5" height="${6+((j*5+i*3)%9)}" rx="2.5" fill="${c}"/>`).join('')}).join('');
+  const r=mulberry(hashStr((sub.sundaeName||'')+(sub.toppings||[]).join()));
+  const half=y=>y<52?15:y<66?26:36; let bits='',top='';
+  for(const t of (sub.toppings||[])){const st=toppingStyle(t);
+    if(st.kind==='whip'){top=`<g fill="#ffffff" stroke="rgba(0,0,0,.12)" stroke-width="1"><circle cx="51" cy="31" r="8"/><circle cx="69" cy="31" r="8"/><circle cx="60" cy="25" r="9.5"/></g>`+top;continue}
+    if(st.kind==='cherry'){top+=`<path d="M61 13 Q64 5 71 3" stroke="#3d6b2a" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="60" cy="16" r="6.5" fill="#d1132f"/><circle cx="58" cy="14" r="1.8" fill="#ffffff" fill-opacity=".7"/>`;continue}
+    for(let i=0;i<7;i++){const y=41+r()*37;const x=60+(r()*2-1)*half(y)*0.85;const c=st.colors[Math.floor(r()*st.colors.length)];const rot=Math.round(r()*120-60);const X=x.toFixed(1),Y=y.toFixed(1);
+      if(st.shape==='dot') bits+=`<circle cx="${X}" cy="${Y}" r="2.3" fill="${c}"/>`;
+      else if(st.shape==='chunk') bits+=`<rect x="${(x-2.8).toFixed(1)}" y="${(y-2.8).toFixed(1)}" width="5.6" height="5.6" rx="1.2" fill="${c}" stroke="rgba(0,0,0,.12)" stroke-width=".6" transform="rotate(${rot} ${X} ${Y})"/>`;
+      else if(st.shape==='nut') bits+=`<ellipse cx="${X}" cy="${Y}" rx="3" ry="2" fill="${c}" transform="rotate(${rot} ${X} ${Y})"/>`;
+      else bits+=`<rect x="${(x-3).toFixed(1)}" y="${(y-1.1).toFixed(1)}" width="6" height="2.2" rx="1.1" fill="${c}" transform="rotate(${rot} ${X} ${Y})"/>`;}
+  }
+  return `<svg width="${size}" height="${size}" viewBox="0 0 120 134" role="img" aria-label="${h(sub.sundaeName||'Sundae')} illustration"><defs>${pat}</defs>${holder}${swirl}${drizzle}${bits}${top}</svg>`;
+}
+function artFor(id,sub,size){
+  const ph=S.photos[id]; if(ph&&ph.url) return `<img src="${h(ph.url)}" alt="Photo of ${h(sub&&sub.sundaeName||'the sundae')}">`;
+  if(sub&&sub.sketchUrl) return `<img src="${h(sub.sketchUrl)}" alt="Sketch of ${h(sub.sundaeName)}">`;
+  return sundaeSVG(sub,size);
+}
+
+/* ---------------- matchmaking ---------------- */
+function buildSchedule(){
+  const out={generatedAt:new Date().toISOString(),weeks:{},notes:[],waitlist:{frat:[],sorority:[]},pulledIn:[]};
+  PLAY.forEach(w=>out.weeks[w.id]={frat:[],sorority:[]});
+  for(const side of ['frat','sorority']){
+    const f=field(side); let entrants=[...f.in]; const wait=[...f.wait];
+    if(entrants.length%2===1&&wait.length){const p=wait.shift();entrants.push(p);out.pulledIn.push(p.orgId);out.notes.push(`${org(p.orgId).short} moved up from the waitlist so every ${SIDES[side].one.toLowerCase()} has an opponent.`)}
+    out.waitlist[side]=wait.map(s=>s.orgId);
+    const ids=new Set(entrants.map(s=>s.orgId)); const by=Object.fromEntries(entrants.map(s=>[s.orgId,s]));
+    const paired=new Set(); const pairs=[];
+    // 1. picked each other
+    for(const s of entrants){const r=s.rival; if(!r||paired.has(s.orgId)||paired.has(r)||!ids.has(r)) continue; if(by[r].rival===s.orgId){pairs.push({a:s.orgId,b:r,reason:'Picked each other'});paired.add(s.orgId);paired.add(r)}}
+    // 2. one-sided picks, in sign-up order
+    for(const s of entrants){const r=s.rival; if(!r||paired.has(s.orgId)||paired.has(r)||!ids.has(r)) continue; pairs.push({a:s.orgId,b:r,reason:`${org(s.orgId).short} picked ${org(r).short}`});paired.add(s.orgId);paired.add(r)}
+    // 3. closest size
+    const rest=entrants.filter(s=>!paired.has(s.orgId)).sort((x,y)=>org(y.orgId).members-org(x.orgId).members);
+    for(let i=0;i+1<rest.length;i+=2){const a=rest[i].orgId,b=rest[i+1].orgId;pairs.push({a,b,reason:`Closest in size (${org(a).members} vs ${org(b).members} members)`})}
+    if(rest.length%2===1){const lone=rest[rest.length-1].orgId;out.notes.push(`${org(lone).name} has no opponent yet. Invite the next-largest chapter or pair them by hand.`)}
+    // weeks: fewest shared options first
+    const prefs=id=>(by[id].weeks&&by[id].weeks.length?by[id].weeks:PLAY.map(w=>w.id)).filter(w=>PLAY.some(p=>p.id===w));
+    const withOpts=pairs.map(p=>{const A=prefs(p.a),B=prefs(p.b);let both=A.filter(w=>B.includes(w));let fit='Both chapters picked this week';if(!both.length){both=[...new Set([...A,...B])];fit='One chapter picked this week'}return{...p,opts:both,fit}}).sort((x,y)=>x.opts.length-y.opts.length);
+    for(const p of withOpts){
+      let wk=p.opts.find(w=>out.weeks[w][side].length<PER_WEEK);
+      let fit=p.fit;
+      if(!wk){wk=PLAY.map(w=>w.id).find(w=>out.weeks[w][side].length<PER_WEEK);fit='Neither preferred week had room'}
+      if(!wk){out.notes.push(`No room left for ${org(p.a).short} vs ${org(p.b).short}.`);continue}
+      out.weeks[wk][side].push({a:p.a,b:p.b,reason:p.reason,fit});
+    }
+  }
+  return out;
+}
+function scheduledTeams(){
+  const list=[]; if(!S.schedule) return list;
+  for(const w of PLAY){const wk=S.schedule.weeks&&S.schedule.weeks[w.id]; if(!wk) continue;
+    for(const side of ['frat','sorority']) for(const m of (wk[side]||[])){list.push({id:m.a,opp:m.b,week:w.id,side});list.push({id:m.b,opp:m.a,week:w.id,side})}}
+  return list;
+}
+function weekMatchups(weekId){
+  if(weekId==='finals'){const f=finalists();return [...f.frat.map(id=>({side:'frat',id})),...f.sorority.map(id=>({side:'sorority',id}))]}
+  const wk=S.schedule&&S.schedule.weeks&&S.schedule.weeks[weekId]; if(!wk) return [];
+  return [...(wk.frat||[]).map(m=>({...m,side:'frat'})),...(wk.sorority||[]).map(m=>({...m,side:'sorority'}))];
+}
+function teamsInWeek(weekId){
+  if(weekId==='finals') return weekMatchups('finals').map(x=>x.id);
+  return weekMatchups(weekId).flatMap(m=>[m.a,m.b]);
+}
+
+/* ---------------- Square report parsing + scoring ---------------- */
+function parseCSV(text){
+  const rows=[];let row=[],f='',q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true; else if(c===','){row.push(f);f=''} else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(f);rows.push(row);row=[];f=''} else f+=c}
+  if(f!==''||row.length){row.push(f);rows.push(row)}
+  return rows.filter(r=>r.some(x=>String(x).trim()!==''));
+}
+const toNum=v=>{if(v==null)return 0;let s=String(v).trim();if(!s)return 0;const neg=/^\(.*\)$/.test(s)||/^-/.test(s.replace(/[$\s]/g,''));s=s.replace(/[^0-9.]/g,'');const n=parseFloat(s)||0;return neg?-n:n};
+function scoreReport(text,weekId){
+  const rows=parseCSV(text.replace(/^﻿/,''));
+  const hi=rows.findIndex(r=>r.some(c=>/^item$/i.test(String(c).trim())));
+  if(hi<0) throw new Error('This file has no "Item" column. In Square, export the Items Detail CSV (Transactions, then Export, then Items Detail).');
+  const head=rows[hi].map(c=>String(c).trim().toLowerCase());
+  const col=(...names)=>{for(const n of names){const i=head.findIndex(x=>x===n);if(i>=0)return i}for(const n of names){const i=head.findIndex(x=>x.includes(n));if(i>=0)return i}return -1};
+  const ci={item:col('item'),qty:col('qty','quantity'),net:col('net sales'),gross:col('gross sales'),txn:col('transaction id','payment id','order id'),date:col('date')};
+  if(ci.net<0&&ci.gross<0) throw new Error('This file has no "Net Sales" or "Gross Sales" column. Export the Items Detail CSV from Square.');
+  const teamIds=teamsInWeek(weekId); if(!teamIds.length) throw new Error('No matchups are set for this week yet. Generate matchups first.');
+  const keys=teamIds.map(id=>{const o=org(id),s=S.subs[id]||{};return{id,sundae:norm(s.sundaeName),tags:[norm(o.name),norm(o.short)].filter(Boolean)}});
+  const findSundae=item=>{let best=null;for(const k of keys){if(k.sundae&&item.includes(k.sundae)&&(!best||k.sundae.length>best.sundae.length))best=k}return best};
+  const findTag=item=>{if(!item.includes('here for'))return null;const rest=item.slice(item.indexOf('here for')+8).trim();let best=null,bl=0;for(const k of keys)for(const t of k.tags){if((rest===t||rest.startsWith(t+' ')||rest.endsWith(' '+t)||rest.includes(t))&&t.length>bl){best=k;bl=t.length}}return best||{id:null}};
+  const txns=new Map(); let dataRows=0;
+  rows.slice(hi+1).forEach((r,idx)=>{
+    const item=norm(r[ci.item]); if(!item) return; dataRows++;
+    const amt=toNum(ci.net>=0?r[ci.net]:r[ci.gross]); const qty=ci.qty>=0?(toNum(r[ci.qty])||1):1;
+    const tid=(ci.txn>=0&&String(r[ci.txn]).trim())||('row'+idx);
+    if(!txns.has(tid)) txns.set(tid,{lines:[]});
+    const tag=findTag(item); const sun=tag?null:findSundae(item);
+    txns.get(tid).lines.push({amt,qty,tag:tag?tag.id||'?':null,sundae:sun?sun.id:null});
+  });
+  const T=Object.fromEntries(teamIds.map(id=>[id,{raised:0,sundaeQty:0,sundaeSales:0,otherSales:0,orders:0,tagOrders:0}]));
+  let showdownOrders=0, unknownTags=0;
+  for(const [,t] of txns){
+    const tagTeams=[...new Set(t.lines.filter(l=>l.tag&&l.tag!=='?').map(l=>l.tag))];
+    unknownTags+=t.lines.filter(l=>l.tag==='?').length;
+    const sunTeams=[...new Set(t.lines.filter(l=>l.sundae).map(l=>l.sundae))];
+    const teams=[...new Set([...tagTeams,...sunTeams])]; if(!teams.length) continue;
+    showdownOrders++;
+    const other=t.lines.filter(l=>!l.sundae&&!l.tag).reduce((a,l)=>a+l.amt,0);
+    for(const l of t.lines) if(l.sundae){T[l.sundae].sundaeQty+=l.qty;T[l.sundae].sundaeSales+=l.amt;T[l.sundae].raised+=l.amt}
+    const otherTo=tagTeams.length===1?tagTeams:teams;
+    for(const id of otherTo){T[id].otherSales+=other/otherTo.length;T[id].raised+=other/otherTo.length}
+    for(const id of teams){T[id].orders++; if(tagTeams.includes(id)&&!sunTeams.includes(id)) T[id].tagOrders++}
+  }
+  for(const id in T) for(const k in T[id]) T[id][k]=Math.round(T[id][k]*100)/100;
+  return {teams:T,rows:dataRows,orders:txns.size,showdownOrders,unknownTags};
+}
+/* Head to head = sundaes sold. Winner takes pct% of BOTH sundaes' sales.
+   Every chapter, win or lose, earns pct% of its own other ("Here for") sales. */
+const ZERO={raised:0,sundaeQty:0,sundaeSales:0,otherSales:0,orders:0,tagOrders:0};
+function outcome(weekId,m){
+  const R=S.results[weekId]; if(!R||!R.teams) return null;
+  const A={...ZERO,...(R.teams[m.a]||{})},B={...ZERO,...(R.teams[m.b]||{})};
+  let win=null; if(A.sundaeQty!==B.sundaeQty) win=A.sundaeQty>B.sundaeQty?m.a:m.b; else if(A.sundaeSales!==B.sundaeSales) win=A.sundaeSales>B.sundaeSales?m.a:m.b;
+  const p=S.settings.pct/100, sundaePot=A.sundaeSales+B.sundaeSales, prize=sundaePot*p;
+  const payA=(win===m.a?prize:0)+A.otherSales*p, payB=(win===m.b?prize:0)+B.otherSales*p;
+  return {A,B,win,sundaePot,prize,payA,payB,pot:A.raised+B.raised};
+}
+function standings(){
+  const rows=scheduledTeams().map(t=>{const R=S.results[t.week];const st=R&&R.teams&&R.teams[t.id];const oc=st?outcome(t.week,{a:t.id,b:t.opp}):null;
+    return {...t,raised:st?st.raised:null,sundaeQty:st?st.sundaeQty:null,result:oc?(oc.win===t.id?'W':oc.win?'L':'T'):null,earned:oc?oc.payA:0}});
+  rows.sort((a,b)=>(b.sundaeQty??-1)-(a.sundaeQty??-1)||(b.raised??-1)-(a.raised??-1)||org(b.id).members-org(a.id).members);
+  return rows;
+}
+function finalists(){
+  const st=standings(); const out={frat:[],sorority:[]};
+  for(const side of ['frat','sorority']){
+    let pool=st.filter(r=>r.side===side&&r.raised!=null);
+    if(S.settings.finalistRule!=='anyone') pool=pool.filter(r=>r.result==='W');
+    out[side]=pool.slice(0,3).map(r=>r.id);
+  }
+  return out;
+}
+function finaleOutcome(){
+  const R=S.results.finals; if(!R||!R.teams) return null; const f=finalists();
+  const T=id=>({...ZERO,...(R.teams[id]||{})});
+  const sum=(s,k)=>f[s].reduce((a,id)=>a+T(id)[k],0);
+  const frQ=sum('frat','sundaeQty'),soQ=sum('sorority','sundaeQty'),fr=sum('frat','raised'),so=sum('sorority','raised');
+  const top=[...f.frat,...f.sorority].sort((a,b)=>(T(b).sundaeQty-T(a).sundaeQty)||(T(b).raised-T(a).raised))[0];
+  return {fr,so,frQ,soQ,winSide:frQ===soQ?null:(frQ>soQ?'frat':'sorority'),top,T};
+}
+function weekTotals(){
+  const out=[]; for(const w of [...PLAY,WEEKS.find(x=>x.finals)]){const R=S.results[w.id]; if(!R||!R.teams) continue;
+    let fr=0,so=0,frQ=0,soQ=0; for(const [id,t] of Object.entries(R.teams)){if(org(id).side==='frat'){fr+=t.raised||0;frQ+=t.sundaeQty||0}else{so+=t.raised||0;soQ+=t.sundaeQty||0}}
+    out.push({id:w.id,label:w.finals?'Finale':w.label.replace('Week ','Wk '),frat:fr,sorority:so,frQ,soQ})}
+  return out;
+}
+function totalEarned(){
+  let e=0; for(const w of PLAY) for(const m of weekMatchups(w.id)){const oc=outcome(w.id,m); if(oc) e+=oc.payA+oc.payB}
+  const fo=finaleOutcome(); if(fo) e+=(fo.fr+fo.so)*S.settings.pct/100; return e;
+}
+
+/* ---------------- demo data ---------------- */
+function demoSubmission(o,r,i,rivalId){
+  const m=MENU, L=S.settings.limits;
+  const bases=shuffle(r,m.bases).slice(0,r()<.45?2:1);
+  const tops=shuffle(r,m.toppings).slice(0,2+Math.floor(r()*(L.toppings-1)));
+  const sauces=shuffle(r,m.sauces).slice(0,1+(r()<.3?1:0));
+  const vessel=pick(r,m.vessels);
+  const weeks=shuffle(r,PLAY.map(w=>w.id)).slice(0,2+Math.floor(r()*2));
+  const day=3+Math.floor(i*1.35+r()*2); const hr=9+Math.floor(r()*12);
+  return {orgId:o.id,contactName:'Demo contact',contactRole:'President',contactEmail:'',contactPhone:'',rival:rivalId||'',weeks,bases,vessel,toppings:tops,sauces,
+    sundaeName:'',description:`${bases.join(' and ')} soft serve in a ${vessel.toLowerCase().replace('cup','cup')}, loaded with ${tops.slice(0,-1).join(', ')}${tops.length>1?' and ':''}${tops.slice(-1)}, finished with ${sauces.join(' and ').toLowerCase()}.`,
+    submittedAt:new Date(Date.UTC(2026,10,day,hr,Math.floor(r()*60))).toISOString(),demo:true};
+}
+async function addDemoSignups(){
+  if(!needEdit()||!S.db) return;
+  const r=mulberry(20270308); const names=shuffle(r,DEMO_NAMES); let ni=0, n=0;
+  for(const side of ['frat','sorority']){
+    const os=shuffle(r,orgList(side)).filter(o=>!S.subs[o.id]);
+    const rivals={}; if(os.length>=4){rivals[os[0].id]=os[1].id;rivals[os[1].id]=os[0].id;rivals[os[2].id]=os[3].id;rivals[os[3].id]=os[2].id} if(os.length>=6) rivals[os[4].id]=os[5].id;
+    for(let i=0;i<os.length;i++){const s=demoSubmission(os[i],r,i+(side==='sorority'?1:0),rivals[os[i].id]);s.sundaeName=names[ni++%names.length];
+      try{await S.db.doc('submissions/'+os[i].id).set(s);n++}catch(e){toast('Could not save demo sign-ups: '+(e.message||e.code));return}}
+  }
+  toast(`Added ${n} demo sign-ups.`);
+}
+function demoReportCSV(weekId){
+  const ids=teamsInWeek(weekId); const r=mulberry(hashStr('sales-'+weekId+'-'+ids.join()));
+  const price=Number(S.settings.sundaePrice)||6.95;
+  const menu=[['Soft Serve','Mini Cone',1.95],['Soft Serve','Medium Cone',4.70],['Soft Serve','Large Cone',5.45],['Mix-Ups','Mix-Up',6.95],['Food','Hot Dog',4.50],['Shaved Ice','Shaved Ice',4.25],['Smoothies','Smoothie',5.95],['Sundaes','Banana Split',8.95],['Sundaes','Brownie Sundae',7.75],['Pints','Fresh Pint',6.35],['Food','Giant Pretzel',3.50]];
+  const head=['Date','Time','Time Zone','Category','Item','Qty','Price Point Name','SKU','Modifiers Applied','Gross Sales','Discounts','Net Sales','Tax','Transaction ID','Payment ID','Device Name','Notes','Details','Event Type','Location','Dining Option'];
+  const w=WEEKS.find(x=>x.id===weekId); const baseDay={w1:8,w2:15,w3:29,w4:5,w5:12,finals:19}[weekId]||8; const month=(weekId==='w1'||weekId==='w2'||weekId==='w3')?3:4;
+  const lines=[head]; let tn=0;
+  const txn=(items)=>{tn++;const id='DEMO'+weekId.toUpperCase()+String(tn).padStart(5,'0');let d=baseDay+Math.floor(r()*7);let mo=month;if(mo===3&&d>31){d-=31;mo=4}
+    const date=`2027-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const time=`${14+Math.floor(r()*8)}:${String(Math.floor(r()*60)).padStart(2,'0')}:00`;
+    for(const [cat,name,p,q] of items){const qty=q||1;const amt=(p*qty).toFixed(2);lines.push([date,time,'Eastern Time (US & Canada)',cat,name,qty,'Regular','','',`$${amt}`,'$0.00',`$${amt}`,`$${(p*qty*0.0725).toFixed(2)}`,id,id,r()<.55?'Drive-Thru iPad':'Window iPad','','','Payment','Spring Street Treats',r()<.55?'Drive-Thru':'Walk-Up'])}};
+  for(const id of ids){
+    const o=org(id),s=S.subs[id]||{}; const item=`${s.sundaeName||'Showdown Sundae'} (${o.short})`;
+    const strength=(0.7+r()*0.6)*(weekId==='finals'?1.3:1);
+    const nS=Math.round(o.members*0.42*strength+r()*10), nT=Math.round(o.members*0.24*strength+r()*8);
+    for(let i=0;i<nS;i++){const extra=r()<.35?[pick(r,menu)]:[];txn([['Showdown',item,price,r()<.15?2:1],...extra])}
+    for(let i=0;i<nT;i++){const it=pick(r,menu);txn([[it[0],it[1],it[2]],...(r()<.3?[pick(r,menu)]:[]),['Showdown',`Here for ${o.short}`,0]])}
+  }
+  const nO=140+Math.floor(r()*80); for(let i=0;i<nO;i++){txn([pick(r,menu),...(r()<.25?[pick(r,menu)]:[])])}
+  return lines.map(row=>row.map(c=>{const v=String(c);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')).join('\n');
+}
+
+/* ---------------- db writes ---------------- */
+async function saveSettings(patch,msg){
+  if(!needEdit()||!S.db) return false;
+  const next={...S.settings,...patch};
+  try{await S.db.doc('config/settings').set(JSON.parse(JSON.stringify(next)));S.settings=next;if(msg)toast(msg);return true}
+  catch(e){toast('Could not save: '+(e.message||e.code));return false}
+}
+async function scoreAndSave(weekId,text,fileName,demo){
+  if(!needEdit()||!S.db) return;
+  let res; try{res=scoreReport(text,weekId)}catch(e){toast(e.message,6000);return}
+  const doc={weekId,fileName,demo:!!demo,scoredAt:new Date().toISOString(),...res};
+  try{await S.db.doc('results/'+weekId).set(doc);toast(`${WEEKS.find(w=>w.id===weekId).label} scored: ${res.rows} lines read, ${res.showdownOrders} Showdown orders found.`)}
+  catch(e){toast('Could not save results: '+(e.message||e.code))}
+}
+
+/* ---------------- views ---------------- */
+const ROUTES=[['overview','Overview'],['outreach','Outreach'],['signup','Sign-up form'],['signups','Sign-ups'],['matchups','Matchups'],['scoreboard','Scoreboard'],['menu-board','Menu board']];
+const maskWord=w=>w?w.slice(0,1).toUpperCase()+'•••••':'';
+const presName=o=>[maskWord(o.presFirst),maskWord(o.presLast)].filter(Boolean).join(' ');
+function renderNav(){
+  $('#nav').innerHTML=ROUTES.map(([id,l])=>`<a href="#${id}" ${S.route===id?'aria-current="page"':''}>${l}</a>`).join('');
+  const role=S.db?(S.canEdit?'<span class="pill good"><span class="dot"></span>SST staff</span>':'<span class="pill">Chapter view</span>'):S.conn==='connecting'?'<span class="pill">Connecting to season data…</span>':`<span class="pill warn">Not connected (${h(S.conn)})</span>`;
+  $('#who').innerHTML=role;
+}
+function statusBanner(){
+  if(!S.db&&S.timedOut) return `<div class="banner"><b>Season data isn't loading.</b> This page saves sign-ups and results to Spring Street Treats' shared database, which needs you signed in to claude.ai. Everything below shows the empty layout.</div>`;
+  return '';
+}
+const RULE_LINE=()=>`The chapter that sells more of its sundae wins the week and takes ${S.settings.pct}% of both chapters' sundae sales, plus the trophy. Win or lose, every chapter also earns ${S.settings.pct}% of any other order where the customer says the chapter's name.`;
+
+function vOverview(){
+  const st=S.settings; const fr=field('frat'),so=field('sorority');
+  const contacted=Object.values(S.outreach).filter(x=>x.emailedAt||x.dmAt).length;
+  const scored=PLAY.filter(w=>S.results[w.id]).length;
+  const raised=weekTotals().reduce((a,d)=>a+d.frat+d.sorority,0); const earned=totalEarned();
+  const fo=finaleOutcome();
+  const steps=[
+    ['Feb 1','Sign-ups open',contacted?`${contacted} of ${orgList().length} chapters contacted`:'Invite the 26 chapters',contacted?'done':'now'],
+    [fmtDate(st.deadline).replace(/, \d{4}$/,''),'Sign-ups close',`${fr.in.length+so.in.length} of 20 spots filled`,fr.in.length+so.in.length>=20?'done':contacted?'now':''],
+    ['Feb 24','Matchups go out',S.schedule?'Schedule generated':'Generate after sign-ups close',S.schedule?'done':(fr.all.length+so.all.length?'now':'')],
+    ['Mar 8 – Apr 18','Weeks 1 to 5',scored?`${scored} of 5 weeks scored`:'Spring break off',scored>=5?'done':S.schedule?'now':''],
+    ['Apr 19 – 25','Grand Finale',fo?(fo.winSide?SIDES[fo.winSide].label+' win':'Tied'):'Top 3 per side',fo?'done':scored>=5?'now':'']
+  ];
+  const next=PLAY.find(w=>weekMatchups(w.id).length&&!S.results[w.id]);
+  const lead=side=>standings().filter(r=>r.side===side&&r.raised!=null).slice(0,3);
+  const leadHTML=side=>{const L=lead(side);return L.length?L.map((r,i)=>`<div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:8px"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span class="muted num">${i+1}.</span> <b>${h(org(r.id).short)}</b></span><span class="num" style="white-space:nowrap">${r.sundaeQty} sundaes</span></div>`).join(''):`<p class="muted small">No results yet.</p>`};
+  return `${statusBanner()}
+  <section class="hero">
+    <div><div class="eyebrow">Spring 2027 · Miami Greek life</div>
+      <h1>Sundae Showdown</h1>
+      <p>Chapters design a sundae from the Spring Street Treats menu and go head to head for a week. ${RULE_LINE()} The top 3 fraternities and top 3 sororities meet in the Grand Finale.</p>
+      <div class="row" style="margin-top:16px"><a class="btn primary" href="#outreach">Start outreach</a><a class="btn" href="#signup">See the sign-up form</a></div>
+    </div>
+    <div class="card" style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center">
+      ${sundaeSVG({sundaeName:'The Swoop',bases:['Twist'],vessel:'Waffle cone',toppings:['Fruity Pebbles','Cookies & cream','Whipped cream','Maraschino cherries'],sauces:['Hot fudge']},110)}
+      <div class="stack" style="gap:6px"><b>How a week works</b>
+        <span class="small muted">Four sundaes go on the menu: one fraternity matchup and one sorority matchup. Buying a chapter's sundae counts toward its head to head. Saying the chapter's name on any other order earns that chapter money too. SST uploads its Square report and the app picks the winner.</span></div>
+    </div>
+  </section>
+  <div class="stats">
+    <div class="stat"><b class="num">${contacted}<span class="muted" style="font-size:16px"> / ${orgList().length||26}</span></b><span>Chapters contacted</span></div>
+    <div class="stat"><b class="num">${fr.in.length}<span class="muted" style="font-size:16px"> / 10</span></b><span>Fraternity spots filled</span></div>
+    <div class="stat"><b class="num">${so.in.length}<span class="muted" style="font-size:16px"> / 10</span></b><span>Sorority spots filled</span></div>
+    <div class="stat"><b class="num">${money0(raised)}</b><span>Raised in Showdown orders</span></div>
+    <div class="stat"><b class="num">${money0(earned)}</b><span>Earned by chapters</span></div>
+  </div>
+  <section class="card"><div class="timeline">${steps.map(s=>`<div class="tl ${s[3]}"><span class="when">${s[0]}</span><b>${s[1]}</b><span class="st">${s[2]}</span></div>`).join('')}</div></section>
+  <div class="grid2">
+    <section class="card stack"><div class="sec-head"><h2>${next?`Up next: ${next.label}`:'Up next'}</h2>${next?`<span class="pill">${next.range}</span>`:''}</div>
+      ${next?weekMatchups(next.id).map(m=>`<div class="mu"><div><span class="pill ${m.side}">${SIDES[m.side].one}</span><div class="team-name">${h(org(m.a).name)}</div><div class="small muted">${h((S.subs[m.a]||{}).sundaeName||'')}</div></div><span class="vs">VS</span><div class="b"><div class="team-name">${h(org(m.b).name)}</div><div class="small muted">${h((S.subs[m.b]||{}).sundaeName||'')}</div></div></div>`).join(''):`<p class="muted">Matchups appear here once the schedule is generated.</p>`}
+    </section>
+    <section class="card stack"><h2>Season leaders</h2>
+      <div class="grid2" style="gap:18px"><div class="stack" style="gap:8px"><span class="pill frat">Fraternities</span>${leadHTML('frat')}</div><div class="stack" style="gap:8px"><span class="pill sorority">Sororities</span>${leadHTML('sorority')}</div></div>
+    </section>
+  </div>
+  <section class="card about"><div><div class="eyebrow">About this prototype</div><h2 style="margin-top:4px">The website we'd build for Spring Street Treats</h2>
+    <p class="muted" style="margin:8px 0 0;max-width:70ch">Showdown HQ is a working prototype. The live version would be its own website that SST logs into, with email sending through SST's Gmail. Spring Street Treats would own it and run the whole season from it.</p></div>
+    <div class="costs"><div><b class="num">$2,000 – $5,000</b><span>One-time build. About 60 to 100 hours from a Fiverr or Upwork developer at $30 to $50 an hour.</span></div><div><b class="num">$0 – $25 / mo</b><span>Hosting and a domain. Sending email through Gmail is free.</span></div></div>
+  </section>`;
+}
+
+function vOutreach(){
+  const st=S.settings; const orgs=orgList();
+  if(!orgs.length) return `${statusBanner()}<div class="sec-head"><div><h1>Outreach</h1></div></div><div class="empty"><b>No chapters loaded yet.</b><span>The chapter list (from the Miami University Org Directory) loads from the season database.</span></div>`;
+  if(!S.ui.previewOrg||!S.orgs[S.ui.previewOrg]) S.ui.previewOrg=orgs[0].id;
+  const po=org(S.ui.previewOrg);
+  const status=o=>{if(S.subs[o.id])return '<span class="pill good">Signed up</span>';const r=S.outreach[o.id]||{};return [r.emailedAt?'<span class="pill brand">Emailed</span>':'',r.dmAt?'<span class="pill brand">DM sent</span>':''].join(' ')||'<span class="pill">Not contacted</span>'};
+  const sel=S.ui.selected; const nSel=orgs.filter(o=>sel[o.id]!==false).length;
+  const table=side=>{const L=orgList(side);const tot=L.reduce((a,o)=>a+o.members,0);return `<section class="card stack"><div class="sec-head"><div><h2>${SIDES[side].label}</h2><span class="small muted">${L.length} chapters · ${tot.toLocaleString()} members · ${side==='frat'?'100+':'200+'} members each</span></div></div>
+    <div class="tablewrap"><table><thead><tr><th></th><th>Chapter</th><th class="r">Members</th><th>President</th><th>Status</th><th></th></tr></thead><tbody>
+    ${L.map(o=>`<tr class="org-row"><td><input type="checkbox" id="sel-${o.id}" data-sel="${o.id}" ${sel[o.id]!==false?'checked':''} aria-label="Include ${h(o.name)}"></td>
+      <td><div class="org-name">${h(o.name)}</div><div class="org-sub">${o.ig?h(o.ig):'No Instagram on file'}</div></td>
+      <td class="r num">${o.members}</td>
+      <td><div>${h(presName(o))}</div><div class="org-sub">${h(maskEmail(o.presEmail))}</div></td>
+      <td>${status(o)}</td>
+      <td class="r">${o.ig?`<a class="btn small" data-dm="${o.id}" href="${SITE?`https://www.instagram.com/${h(o.ig.replace(/^@/,''))}/`:`https://ig.me/m/${h(o.ig.replace(/^@/,''))}`}" ${FILM?'':'target="_blank" rel="noopener"'}>Copy DM &amp; open chat</a>`:''}</td></tr>`).join('')}
+    </tbody></table></div></section>`};
+  return `${statusBanner()}
+  <div class="sec-head"><div><div class="eyebrow">Step 1 · Opens Feb 1</div><h1>Outreach</h1><p>One template, personalized for every chapter by the president's first name and the chapter name. Email goes to every selected chapter at once. Instagram is one click per chapter: it copies the DM and opens a chat with that chapter's account, so you paste and send. Names and emails are hidden on this page.</p></div></div>
+  ${SITE?`<div class="connbar"><span class="conn-ok"><svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><rect x="0.75" y="0.75" width="16.5" height="12.5" rx="2" fill="#fff" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 1.8 L9 7.6 L16.5 1.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><b>Gmail connected</b></span><span class="conn-addr">${h(SENDER)}</span><span class="small muted">Outreach emails send from this inbox, and replies land there.</span></div>`:''}
+  <div class="grid2">
+    <section class="card stack">
+      <h2>Templates</h2>
+      <div class="mergefields"><span class="small muted">Fill-ins:</span>${['first_name','chapter','members','deadline','form_link','pct'].map(k=>`<code>{${k}}</code>`).join('')}</div>
+      <label class="field" for="tpl-subj">Email subject<input type="text" id="tpl-subj" value="${h(st.emailSubject)}"></label>
+      <label class="field" for="tpl-body">Email<textarea id="tpl-body" rows="14">${h(st.emailBody)}</textarea></label>
+      <label class="field" for="tpl-dm">Instagram DM<textarea id="tpl-dm" rows="5">${h(st.dmBody)}</textarea></label>
+      <div class="row"><button class="btn" id="tpl-save">Save templates</button><button class="btn ghost" id="tpl-reset">Restore default wording</button></div>
+    </section>
+    <section class="card stack">
+      <div class="sec-head"><h2>Preview</h2><select id="prev-org" style="width:auto;max-width:100%">${orgs.map(o=>`<option value="${o.id}" ${o.id===po.id?'selected':''}>${h(o.name)}</option>`).join('')}</select></div>
+      <div class="small muted" id="prev-to">To: ${h(presName(po))} &lt;${h(maskEmail(po.presEmail))}&gt;</div>
+      <div class="preview" id="prev-email"></div>
+      <div class="small muted" id="prev-dm-to">Instagram DM to ${h(po.ig||'(none)')}</div>
+      <div class="preview" id="prev-dm"></div>
+    </section>
+  </div>
+  <div class="actionbar">
+    <div class="row"><b class="num">${nSel} of ${orgs.length} chapters selected</b><button class="btn small" id="sel-all">Select all</button><button class="btn small ghost" id="sel-none">Clear</button></div>
+    <div class="row"><span class="small muted">${SITE?`Sends from ${h(SENDER)}`:"Demo mode: emails are written and logged here. The live version sends from SST's Gmail."}</span><button class="btn primary" id="send-email" ${nSel?'':'disabled'}>Send email to ${nSel} chapters</button></div>
+  </div>
+  <div class="stack">${table('frat')}${table('sorority')}</div>`;
+}
+
+function vSignup(){
+  const st=S.settings, m=MENU, L=st.limits;
+  if(S.ui.signupDone){const d=S.ui.signupDone,o=org(d.orgId),p=placeOf(d.orgId);
+    return `<div class="form-shell"><section class="card confirm-card stack" style="align-items:center">${sundaeSVG(S.subs[d.orgId]||d.sub,130)}
+      <h2>${h(o.name)} is in.</h2>
+      <p class="muted" style="max-width:52ch">${p?(p.spot?`You hold ${SIDES[o.side].one.toLowerCase()} spot ${p.n} of ${SPOTS}.`:`All ${SPOTS} ${SIDES[o.side].one.toLowerCase()} spots are taken, so you're number ${p.n} on the waitlist. If a chapter drops out, you move up.`):'Your sign-up is saved.'} Matchups go out Feb 24. Spring Street Treats will build your sundae from your sketch and description. Questions? Call ${CONTACT.phone} or email ${CONTACT.email}.</p>
+      <button class="btn" id="signup-again">Sign up another chapter</button></section></div>`}
+  const orgsBy=side=>orgList(side).map(o=>`<option value="${o.id}">${h(o.name)}${S.subs[o.id]?' (signed up)':''}</option>`).join('');
+  const optBoxes=(name,list,type,start=0)=>list.map((v,i)=>`<label class="opt"><input type="${type}" name="${name}" id="${name}-${i+start}" value="${h(v)}"><span>${h(v)}</span></label>`).join('');
+  return `<div class="form-shell">
+  ${statusBanner()}
+  <div class="form-hero"><div class="eyebrow">Spring Street Treats · Sign-ups close ${fmtDate(st.deadline)}</div><h1>Enter the Sundae Showdown</h1>
+    <p class="muted">Design your chapter's sundae, pick your rival and your week. The first ${SPOTS} fraternities and first ${SPOTS} sororities get a spot. ${RULE_LINE()}</p></div>
+  <form id="signup-form" class="stack" novalidate>
+    <section class="card step"><div class="step-h"><span class="step-n">1</span><h2>Your chapter</h2></div>
+      <div class="fields">
+        <label class="field" for="f-org">Chapter<select id="f-org" required><option value="">Choose your chapter</option><optgroup label="Fraternities">${orgsBy('frat')}</optgroup><optgroup label="Sororities">${orgsBy('sorority')}</optgroup></select></label>
+        <label class="field" for="f-name">Your name<input type="text" id="f-name" autocomplete="name" required></label>
+        <label class="field" for="f-role">Your role<input type="text" id="f-role" placeholder="President, social chair..."></label>
+        <label class="field" for="f-email">Email<input type="email" id="f-email" autocomplete="email" required></label>
+        <label class="field" for="f-phone">Phone <span class="hint">We text you the week before your matchup</span><input type="tel" id="f-phone" autocomplete="tel"></label>
+      </div>
+    </section>
+    <section class="card step"><div class="step-h"><span class="step-n">2</span><h2>Your rival</h2></div>
+      <label class="field" for="f-rival">Who do you want to beat? <span class="hint">If they pick you too, it's locked in. Otherwise we match you with a chapter close to your size.</span>
+        <select id="f-rival"><option value="">No preference, match us by size</option></select></label>
+    </section>
+    <section class="card step"><div class="step-h"><span class="step-n">3</span><h2>Your week</h2></div>
+      <p class="small muted" style="margin:0">Pick every week that works for you. More picks means a better chance at your rival.</p>
+      <div class="weekopts">${WEEKS.filter(w=>!w.finals).map(w=>`<label class="opt weekopt"><input type="checkbox" name="f-week" id="f-week-${w.id}" value="${w.id}" ${w.locked?'disabled':''}><span><b>${w.label}</b><small>${w.range}${w.locked?' · closed for spring break':''}</small></span></label>`).join('')}</div>
+    </section>
+    <section class="card step"><div class="step-h"><span class="step-n">4</span><h2>Build your sundae</h2></div>
+      <p class="small muted" style="margin:0">Everything here is on the Spring Street Treats menu today. The rotating flavor is whichever of the four is on that week.</p>
+      <div class="builder"><div class="stack">
+        <div class="stack" style="gap:8px"><b>Frostline soft serve <span class="muted small">(up to ${L.bases})</span></b><div class="opts" data-max="${L.bases}">${optBoxes('f-base',m.bases,'checkbox')}</div></div>
+        <div class="stack" style="gap:8px"><b>Served in</b><div class="opts">${optBoxes('f-vessel',m.vessels,'radio')}</div></div>
+        <div class="stack" style="gap:8px" data-max="${L.toppings}"><b>Toppings <span class="muted small">(up to ${L.toppings})</span></b>
+          <span class="small muted">Standard</span><div class="opts">${optBoxes('f-top',m.toppingsStd,'checkbox')}</div>
+          <span class="small muted">Premium</span><div class="opts">${optBoxes('f-top',m.toppingsPrem,'checkbox',m.toppingsStd.length)}</div></div>
+        <div class="stack" style="gap:8px"><b>Sauce <span class="muted small">(up to ${L.sauces})</span></b><div class="opts" data-max="${L.sauces}">${optBoxes('f-sauce',m.sauces,'checkbox')}</div></div>
+      </div>
+      <div class="sundae-prev" id="sundae-prev"></div></div>
+    </section>
+    <section class="card step"><div class="step-h"><span class="step-n">5</span><h2>Name it and sketch it</h2></div>
+      <div class="fields">
+        <label class="field" for="f-sname">Sundae name <span class="hint">This goes on the menu board</span><input type="text" id="f-sname" maxlength="32" required></label>
+        <label class="field" for="f-desc">Description <span class="hint">How it's built, in a sentence or two</span><textarea id="f-desc" rows="3" maxlength="240"></textarea></label>
+      </div>
+      <div class="sketch-drop"><div id="sketch-thumb">${S.ui.sketchUrl?`<img src="${S.ui.sketchUrl}" alt="Your sketch">`:''}</div><div class="stack" style="gap:6px"><b>Upload a sketch</b><span class="small muted">A photo of a drawing is perfect. Our staff use it to build your sundae.</span><label class="btn small" for="f-sketch" style="align-self:flex-start">Choose image</label><input type="file" id="f-sketch" accept="image/*" hidden></div></div>
+    </section>
+    <div class="row" style="justify-content:space-between"><span class="small muted" id="form-msg">Questions? Call ${CONTACT.phone} or email ${CONTACT.email}.</span><button class="btn primary" type="submit" id="f-submit">Submit sign-up</button></div>
+  </form></div>`;
+}
+
+function vSignups(){
+  const sideCol=side=>{const f=field(side);const pct=Math.min(100,f.in.length/SPOTS*100);
+    const card=(s,i,wait)=>{const o=org(s.orgId);const riv=s.rival?org(s.rival).short:'No preference';
+      return `<div class="sub-card"><div class="sub-art">${artFor(s.orgId,s,84)}</div><div class="stack" style="gap:4px;min-width:0">
+        <div class="row" style="justify-content:space-between"><b>${h(o.name)}</b><span class="row" style="gap:6px">${s.demo&&!SITE?'<span class="pill demo">Demo</span>':''}<span class="pill ${wait?'warn':'good'}">${wait?'Waitlist '+i:'Spot '+i}</span></span></div>
+        <div style="font-family:var(--display);font-size:16px">${h(s.sundaeName)}</div>
+        <div class="small muted">${h(s.description||'')}</div>
+        <div>${[...(s.bases||[]),s.vessel,...(s.toppings||[]),...(s.sauces||[])].filter(Boolean).map(x=>`<span class="chip">${h(x)}</span>`).join('')}</div>
+        <div class="small muted">Rival: <b>${h(riv)}</b> · Weeks: ${(s.weeks||[]).map(w=>((WEEKS.find(x=>x.id===w)||{}).label||'').replace('Week ','W')).join(', ')||'any'} · ${o.members} members</div>
+      </div></div>`};
+    return `<section class="card stack"><div class="sec-head"><div><h2>${SIDES[side].label}</h2><span class="small muted">${f.in.length} of ${SPOTS} spots${f.wait.length?` · ${f.wait.length} on the waitlist`:''}</span></div><span class="pill ${side}">${orgList(side).length} invited</span></div>
+      <div class="spotbar"><i style="width:${pct}%;background:var(--c-${side==='frat'?'frat':'soro'})"></i></div>
+      ${f.all.length?f.in.map((s,i)=>card(s,i+1,false)).join('')+(f.wait.length?`<b class="small muted" style="margin-top:6px">Waitlist</b>`+f.wait.map((s,i)=>card(s,i+1,true)).join(''):''):`<div class="empty"><b>No ${SIDES[side].label.toLowerCase()} yet.</b><span>Sign-ups from the form land here in the order they come in.</span></div>`}
+    </section>`};
+  const nDemo=Object.values(S.subs).filter(s=>s.demo).length;
+  return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">Step 2 · Closes ${fmtDate(S.settings.deadline)}</div><h1>Sign-ups</h1><p>Every response from the form, with the sundae build your staff will make. First ${SPOTS} on each side hold a spot; everyone after is on the waitlist.</p></div>
+    ${SITE?'':`<div class="row"><button class="btn" id="demo-add">Add demo sign-ups</button>${nDemo?`<button class="btn ghost" id="demo-clear">Remove ${nDemo} demo sign-ups</button>`:''}<button class="btn ghost" id="reset-demo">Reset demo season</button></div>`}</div>
+  <div class="grid2">${sideCol('frat')}${sideCol('sorority')}</div>`;
+}
+
+function vMatchups(){
+  const fr=field('frat'),so=field('sorority'); const can=fr.all.length+so.all.length>=2;
+  if(!S.schedule) return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">Step 3 · Feb 24</div><h1>Matchups</h1><p>One click turns the sign-ups into the season. Chapters that picked each other face off first. Then one-sided picks, then everyone else by closest member count. Weeks follow what both chapters picked: one fraternity matchup and one sorority matchup each week, with spring break off.</p></div></div>
+    <div class="empty"><b>No schedule yet.</b><span>${fr.in.length} fraternities and ${so.in.length} sororities hold spots.</span><button class="btn primary" id="gen" ${can?'':'disabled'}>Generate matchups</button></div>`;
+  const sch=S.schedule;
+  const cell=(w,side)=>{const ms=(sch.weeks[w.id]||{})[side]||[];return ms.length?ms.map(m=>{const oc=outcome(w.id,m);return `<div class="mchip ${side}"><span class="t">${h(org(m.a).short)} vs ${h(org(m.b).short)}${oc&&oc.win?` <span class="win small">· ${h(org(oc.win).short)} won ${oc.win===m.a?oc.A.sundaeQty:oc.B.sundaeQty}–${oc.win===m.a?oc.B.sundaeQty:oc.A.sundaeQty}</span>`:''}</span><span class="small">${h((S.subs[m.a]||{}).sundaeName||'')} vs ${h((S.subs[m.b]||{}).sundaeName||'')}</span><span class="why">${h(m.reason)} · ${h(m.fit||'')}</span></div>`}).join(''):'<span class="small muted">Open</span>'};
+  const fin=finalists();
+  return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">Step 3 · Feb 24</div><h1>Matchups</h1><p>Generated ${new Date(sch.generatedAt).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}. Each line says why the pair was made and how the week was chosen.</p></div>
+    <div class="row"><button class="btn" id="email-matchups">Email matchups to chapters</button><button class="btn ghost" id="regen">Regenerate</button></div></div>
+  ${sch.notes&&sch.notes.length?`<div class="banner">${sch.notes.map(n=>h(n)).join('<br>')}</div>`:''}
+  <section class="card"><div class="tablewrap"><table class="sched"><thead><tr><th>Week</th><th>Fraternities</th><th>Sororities</th></tr></thead><tbody>
+  ${WEEKS.map(w=>w.locked?`<tr class="locked"><td class="wk"><b>${w.label}</b><span class="small">${w.range}</span></td><td colspan="2">No Showdown this week</td></tr>`:
+    w.finals?`<tr><td class="wk"><b>${w.label}</b><span class="small muted">${w.range}</span></td><td>${fin.frat.length?fin.frat.map(id=>`<span class="chip">${h(org(id).short)}</span>`).join(''):'<span class="small muted">Top 3 after Week 5</span>'}</td><td>${fin.sorority.length?fin.sorority.map(id=>`<span class="chip">${h(org(id).short)}</span>`).join(''):'<span class="small muted">Top 3 after Week 5</span>'}</td></tr>`:
+    `<tr><td class="wk"><b>${w.label}</b><span class="small muted">${w.range}</span></td><td>${cell(w,'frat')}</td><td>${cell(w,'sorority')}</td></tr>`).join('')}
+  </tbody></table></div></section>
+  ${(sch.waitlist.frat.length||sch.waitlist.sorority.length)?`<section class="card stack"><h2>Waitlist</h2><p class="small muted" style="margin:0">If a chapter drops, the first waitlisted chapter on that side takes its place and its week.</p><div>${[...sch.waitlist.frat,...sch.waitlist.sorority].map(id=>`<span class="chip">${h(org(id).name)}</span>`).join('')}</div></section>`:''}
+  <section class="card stack"><h2>Square setup for each week</h2><p class="small muted" style="margin:0">Before each week, add these to a "Showdown" page on the register. The sundaes are real items at ${money(S.settings.sundaePrice)}, priced like SST's medium specialty sundaes. The "Here for" buttons are $0 tags: the cashier taps one when a customer says the chapter's name, and that order counts for that chapter.</p>
+    <div class="possetup">${PLAY.map(w=>{const ids=teamsInWeek(w.id);if(!ids.length)return '';return `<div class="card" style="box-shadow:none"><b>${w.label} <span class="muted small">${w.range}</span></b>${ids.map(id=>`<div class="item"><span>${h((S.subs[id]||{}).sundaeName||'Sundae')} (${h(org(id).short)})</span><span>${money(S.settings.sundaePrice)}</span></div>`).join('')}${ids.map(id=>`<div class="item"><span>Here for ${h(org(id).short)}</span><span>$0.00</span></div>`).join('')}</div>`}).join('')}</div>
+  </section>`;
+}
+
+function weekCard(w){
+  const R=S.results[w.id]; const ms=weekMatchups(w.id); const p=S.settings.pct;
+  if(!ms.length) return '';
+  let body='';
+  if(w.finals){
+    const fo=finaleOutcome(); const f=finalists();
+    body=fo?`<div class="grid2">${['frat','sorority'].map(side=>`<div class="stack" style="gap:6px"><b>${SIDES[side].label}: <span class="num">${side==='frat'?fo.frQ:fo.soQ} sundaes · ${money(side==='frat'?fo.fr:fo.so)}</span>${fo.winSide===side?' <span class="win">· wins the trophy</span>':''}</b>${f[side].map(id=>{const t=fo.T(id);return `<div class="row small" style="justify-content:space-between"><span>${h(org(id).name)} · ${t.sundaeQty} sundaes</span><span class="num">${money(t.raised)} raised · keeps ${money(t.raised*p/100)}</span></div>`}).join('')}</div>`).join('')}</div>
+      ${fo.top?`<div class="payline">Best-selling finale sundae: <b>${h((S.subs[fo.top]||{}).sundaeName||'')}</b> by ${h(org(fo.top).name)}. It goes on the menu next season.</div>`:''}`:'';
+  } else if(R){
+    body=ms.map(m=>{const oc=outcome(w.id,m);const max=Math.max(oc.A.sundaeQty,oc.B.sundaeQty,1);
+      const row=(id,t,pay)=>`<div class="rteam"><div><div class="team-name">${h(org(id).name)} ${oc.win===id?'<span class="win">· wins</span>':''}</div><div class="small muted">${h((S.subs[id]||{}).sundaeName||'')}</div></div><div class="bar" data-tip="${h(org(id).short)}: ${t.sundaeQty} sundaes, ${money(t.sundaeSales)}"><i style="width:${(t.sundaeQty/max*100).toFixed(1)}%;background:var(--c-${m.side==='frat'?'frat':'soro'})"></i></div><div class="r num"><b>${t.sundaeQty} sundaes</b><div class="small muted">${money(t.raised)} raised · earns ${money(pay)}</div></div></div>`;
+      const loser=oc.win===m.a?m.b:m.a, lp=oc.win===m.a?oc.payB:oc.payA, lt=oc.win===m.a?oc.B:oc.A, wt=oc.win===m.a?oc.A:oc.B;
+      return `<div class="result">${row(m.a,oc.A,oc.payA)}${row(m.b,oc.B,oc.payB)}${oc.win?`<div class="payline"><b>${h(org(oc.win).short)}</b> sold more sundaes and takes ${money(oc.prize)}: ${p}% of the ${money(oc.sundaePot)} in sundae sales. Plus ${p}% of their other orders (${money(wt.otherSales*p/100)}). ${h(org(loser).short)} still earns ${money(lp)} from ${p}% of its other orders.</div>`:'<div class="payline">Tied on sundaes and sales.</div>'}</div>`}).join('');
+  } else {
+    body=`<p class="small muted" style="margin:0">${ms.map(m=>m.a?`${h(org(m.a).short)} vs ${h(org(m.b).short)}`:h(org(m.id).short)).join(' · ')}</p>`;
+  }
+  return `<section class="card stack"><div class="sec-head"><div><h2>${w.label} <span class="muted small" style="font-weight:600">${w.range}</span></h2></div>${R?`<span class="pill good">Scored${R.demo&&!SITE?' · demo sales':''}</span>`:'<span class="pill warn">Waiting for report</span>'}</div>
+    ${body}
+    <div class="upl"><label class="btn small ${R?'':'primary'}" for="up-${w.id}">${R?'Replace report':'Upload Square report'}</label><input type="file" id="up-${w.id}" data-up="${w.id}" accept=".csv,text/csv" hidden>
+      ${SITE?'':`<button class="btn small" data-demo="${w.id}">Use demo sales</button>`}${R?`<button class="btn small ghost" data-clear="${w.id}">Clear</button><span class="small muted">${h(R.fileName)} · ${R.rows} lines · ${R.showdownOrders} Showdown orders${R.unknownTags?` · ${R.unknownTags} tags didn't match a chapter`:''}</span>`:''}</div>
+  </section>`;
+}
+function niceMax(v){if(v<=0)return 100;const p=Math.pow(10,Math.floor(Math.log10(v)));const n=v/p;return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p}
+function barChart(data){
+  const W=640,H=250,L=60,R=10,T=12,B=30,iw=W-L-R,ih=H-T-B;
+  const max=niceMax(Math.max(1,...data.flatMap(d=>[d.frat,d.sorority])));
+  const gw=iw/Math.max(data.length,1), bw=Math.min(36,gw*0.32), y=v=>T+ih-(v/max)*ih;
+  let grid='';for(let i=0;i<=4;i++){const v=max*i/4,yy=y(v).toFixed(1);grid+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="var(--line)" stroke-width="1"/><text x="${L-8}" y="${(+yy+4).toFixed(1)}" text-anchor="end" font-size="11" fill="var(--muted)">${money0(v)}</text>`}
+  const bar=(x,v,col,tip)=>{const yy=y(v),hh=T+ih-yy;if(hh<0.5)return '';const r=Math.min(4,hh,bw/2);return `<path d="M${x.toFixed(1)} ${T+ih} V${(yy+r).toFixed(1)} Q${x.toFixed(1)} ${yy.toFixed(1)} ${(x+r).toFixed(1)} ${yy.toFixed(1)} H${(x+bw-r).toFixed(1)} Q${(x+bw).toFixed(1)} ${yy.toFixed(1)} ${(x+bw).toFixed(1)} ${(yy+r).toFixed(1)} V${T+ih} Z" fill="var(${col})" data-tip="${h(tip)}"/>`};
+  let bars='',labels='';
+  data.forEach((d,i)=>{const cx=L+gw*i+gw/2;bars+=bar(cx-bw-1,d.frat,'--c-frat',`${d.label} · Fraternities: ${money(d.frat)} (${d.frQ} sundaes)`)+bar(cx+1,d.sorority,'--c-soro',`${d.label} · Sororities: ${money(d.sorority)} (${d.soQ} sundaes)`);labels+=`<text x="${cx.toFixed(1)}" y="${H-9}" text-anchor="middle" font-size="12" fill="var(--muted)">${h(d.label)}</text>`});
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Money raised by week for fraternities and sororities">${grid}<line x1="${L}" x2="${W-R}" y1="${T+ih}" y2="${T+ih}" stroke="var(--muted)" stroke-width="1"/>${bars}${labels}</svg>`;
+}
+function moneyChart(){
+  const data=weekTotals(); const view=S.ui.chart||'week';
+  const fr=data.reduce((a,d)=>a+d.frat,0), so=data.reduce((a,d)=>a+d.sorority,0), tot=fr+so;
+  const legend=`<div class="legend"><span><i class="sw" style="background:var(--c-frat)"></i>Fraternities</span><span><i class="sw" style="background:var(--c-soro)"></i>Sororities</span></div>`;
+  let body='';
+  if(!data.length) body=`<div class="empty"><b>No weeks scored yet.</b><span>Upload a Square report on any week below and the chart fills in.</span></div>`;
+  else if(view==='week') body=legend+barChart(data);
+  else if(view==='side'){
+    const earned=side=>{let e=0;for(const w of PLAY)for(const m of weekMatchups(w.id).filter(x=>x.side===side)){const oc=outcome(w.id,m);if(oc)e+=oc.payA+oc.payB}return e};
+    body=`<div class="sidecompare">${[['frat',fr,'--c-frat'],['sorority',so,'--c-soro']].map(([s,v,c])=>`<div class="stat"><span><i class="sw" style="background:var(${c})"></i>${SIDES[s].label}</span><b class="num">${money(v)}</b><span>${data.reduce((a,d)=>a+(s==='frat'?d.frQ:d.soQ),0)} sundaes · ${money(earned(s))} earned by chapters</span></div>`).join('')}</div>
+      <div class="split" role="img" aria-label="Share of money raised"><i style="width:${(fr/tot*100).toFixed(1)}%;background:var(--c-frat)" data-tip="Fraternities: ${(fr/tot*100).toFixed(0)}%"></i><i style="width:${(so/tot*100).toFixed(1)}%;background:var(--c-soro)" data-tip="Sororities: ${(so/tot*100).toFixed(0)}%"></i></div>
+      <div class="row small muted" style="justify-content:space-between"><span>Fraternities ${(fr/tot*100).toFixed(0)}%</span><span>Total ${money(tot)}</span><span>Sororities ${(so/tot*100).toFixed(0)}%</span></div>`;
+  } else {
+    const rows=standings().filter(r=>r.raised!=null).sort((a,b)=>b.raised-a.raised); const mx=Math.max(1,...rows.map(r=>r.raised));
+    body=legend+`<div class="hbars">${rows.map(r=>`<div class="hb"><span class="nm">${h(org(r.id).short)}</span><div class="track"><i style="width:${(r.raised/mx*100).toFixed(1)}%;background:var(--c-${r.side==='frat'?'frat':'soro'})" data-tip="${h(org(r.id).name)}: ${money(r.raised)} raised, ${r.sundaeQty} sundaes"></i></div><span class="v num">${money0(r.raised)}</span></div>`).join('')}</div>`;
+  }
+  return `<section class="card stack"><div class="sec-head"><div><h2>Money raised</h2><span class="small muted">All Showdown orders: chapter sundaes plus "Here for" orders</span></div><div class="seg" role="group" aria-label="Chart view">${[['week','By week'],['side','Frats vs sororities'],['chapter','By chapter']].map(([k,l])=>`<button data-chart="${k}" aria-pressed="${view===k}">${l}</button>`).join('')}</div></div>${body}</section>`;
+}
+function vScoreboard(){
+  const st=S.settings;
+  if(!S.schedule) return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">Step 4 · Weekly</div><h1>Scoreboard</h1></div></div><div class="empty"><b>The scoreboard starts once matchups are set.</b><a class="btn" href="#matchups">Go to matchups</a></div>`;
+  const rows=standings(); const f=finalists(); const isFin=id=>f.frat.includes(id)||f.sorority.includes(id);
+  const flt=S.ui.lbFilter; const shown=rows.filter(r=>flt==='all'||r.side===flt);
+  const fo=finaleOutcome();
+  const sideBox=side=>{const ids=f[side];const reg=ids.reduce((a,id)=>a+((rows.find(r=>r.id===id)||{}).sundaeQty||0),0);
+    return `<div class="side ${side}"><div class="row" style="justify-content:space-between"><b>${SIDES[side].label}</b><span class="small muted">${fo?'Finale week':'Regular season'}</span></div>
+    <div class="sidetotal">${fo?(side==='frat'?fo.frQ:fo.soQ):reg} sundaes</div>
+    ${ids.length?ids.map((id,i)=>`<div class="finalist"><div class="art">${sundaeSVG(S.subs[id],44)}</div><div style="min-width:0"><b>${i+1}. ${h(org(id).name)}</b><div class="small muted">${h((S.subs[id]||{}).sundaeName||'')}</div></div></div>`).join(''):'<span class="small muted">Decided after Week 5</span>'}</div>`};
+  return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">Step 4 · Every Monday</div><h1>Scoreboard</h1><p>Each Monday, export last week's Items Detail CSV from Square (Transactions, then Export) and upload it on that week's card. The app counts every Showdown sundae and every "Here for" order, picks the winner and works out what each chapter earns. ${RULE_LINE()}</p></div>
+    <div class="row"><span class="small" style="font-weight:700">Payout</span><div class="seg" role="group" aria-label="Payout percentage">${[5,10].map(p=>`<button data-pct="${p}" aria-pressed="${st.pct===p}">${p}%</button>`).join('')}</div>
+    <span class="small" style="font-weight:700">Finalists</span><div class="seg" role="group" aria-label="Finalist rule"><button data-rule="winners" aria-pressed="${st.finalistRule!=='anyone'}">Weekly winners</button><button data-rule="anyone" aria-pressed="${st.finalistRule==='anyone'}">Any chapter</button></div></div></div>
+  ${moneyChart()}
+  <section class="card stack"><div class="sec-head"><div><h2>Leaderboard</h2><span class="small muted">Ranked by sundaes sold. The top 3 weekly winners on each side make the Grand Finale.</span></div><div class="seg" role="group" aria-label="Filter leaderboard">${[['all','All'],['frat','Fraternities'],['sorority','Sororities']].map(([k,l])=>`<button data-lb="${k}" aria-pressed="${flt===k}">${l}</button>`).join('')}</div></div>
+    <div class="tablewrap"><table class="lb"><thead><tr><th>#</th><th>Chapter</th><th>Side</th><th>Week</th><th>Opponent</th><th class="r">Sundaes</th><th class="r">Raised</th><th class="r">Earned</th><th>Result</th></tr></thead><tbody>
+    ${shown.map((r,i)=>`<tr class="${isFin(r.id)?'fin':''}"><td><span class="rank">${i+1}</span></td><td><b>${h(org(r.id).name)}</b>${isFin(r.id)?' <span class="pill good">Finalist</span>':''}</td><td><span class="pill ${r.side}">${SIDES[r.side].one}</span></td><td class="num">${(WEEKS.find(w=>w.id===r.week)||{}).label||''}</td><td>${h(org(r.opp).short)}</td><td class="r num"><b>${r.sundaeQty??'–'}</b></td><td class="r num">${r.raised!=null?money(r.raised):'–'}</td><td class="r num">${r.raised!=null?money(r.earned):'–'}</td><td>${r.result==='W'?'<span class="pill good">Won</span>':r.result==='L'?'<span class="pill">Lost</span>':r.result==='T'?'<span class="pill warn">Tie</span>':'<span class="small muted">Upcoming</span>'}</td></tr>`).join('')}
+    </tbody></table></div></section>
+  <section class="card stack"><div class="sec-head"><div><h2>Grand Finale · Apr 19 – 25</h2><span class="small muted">Top 3 fraternities vs top 3 sororities. The side that sells more sundaes takes the trophy. Each finalist keeps ${st.pct}% of everything it raises that week. The best-selling sundae goes on next season's menu. Finalists can keep their sundae or redesign it.</span></div>${fo&&fo.winSide?`<span class="pill good">${SIDES[fo.winSide].label} win</span>`:''}</div>
+    <div class="finale">${sideBox('frat')}<div class="vsbig">VS</div>${sideBox('sorority')}</div></section>
+  ${PLAY.map(weekCard).join('')}
+  ${f.frat.length||f.sorority.length?weekCard(WEEKS.find(w=>w.finals)):''}`;
+}
+
+function vMenuBoard(){
+  if(!S.schedule) return `${statusBanner()}<div class="sec-head"><div><h1>Menu board</h1></div></div><div class="empty"><b>The menu board fills in once matchups are set.</b><a class="btn" href="#matchups">Go to matchups</a></div>`;
+  const opts=WEEKS.filter(w=>!w.locked&&teamsInWeek(w.id).length);
+  if(!opts.find(w=>w.id===S.ui.posterWeek)) S.ui.posterWeek=(opts[0]||{}).id;
+  const w=WEEKS.find(x=>x.id===S.ui.posterWeek); if(!w) return '';
+  const card=id=>{const s=S.subs[id]||{},o=org(id);return `<div class="pc"><div class="img">${artFor(id,s,120)}</div><div><div class="ch ${o.side}">${h(o.name)}</div><div class="sn">${h(s.sundaeName||'')}</div><div class="ds">${h(s.description||'')}</div></div></div>`};
+  const ms=weekMatchups(w.id);
+  const prevIdx=PLAY.findIndex(x=>x.id===w.id)-1; const prev=w.finals?PLAY[PLAY.length-1]:(prevIdx>=0?PLAY[prevIdx]:null);
+  const last=prev&&S.results[prev.id]?weekMatchups(prev.id).map(m=>{const oc=outcome(prev.id,m);return oc&&oc.win?`${org(oc.win).short} beat ${org(oc.win===m.a?m.b:m.a).short}`:''}).filter(Boolean).join(' · '):'';
+  const sideBlock=side=>{const list=ms.filter(m=>m.side===side);if(!list.length)return '';
+    return `<div class="stack" style="gap:10px"><div class="side-h ${side}">${SIDES[side].label}</div>${w.finals?`<div class="pm three">${list.map(m=>card(m.id)).join('')}</div>`:list.map(m=>`<div class="pm">${card(m.a)}<div class="vs">VS</div>${card(m.b)}</div>`).join('')}</div>`};
+  const ids=teamsInWeek(w.id);
+  return `${statusBanner()}<div class="sec-head"><div><div class="eyebrow">For the window and Instagram</div><h1>Menu board</h1><p>Each week the app makes a sign for the walk-up window and a matching image for SST's Instagram and Facebook. Anyone stopping by sees what each chapter made and can order it, which adds to that chapter's count. Cards show a photo of the real sundae once staff add one, and the chapter's sketch until then.</p></div>
+    <div class="row"><select id="poster-week" style="width:auto">${opts.map(o=>`<option value="${o.id}" ${o.id===w.id?'selected':''}>${o.label} · ${o.range}</option>`).join('')}</select><button class="btn primary" id="poster-save">Save as image</button></div></div>
+  <section class="card"><div class="poster-wrap"><div class="poster" id="poster">
+    <div class="ph"><div><div class="k">Spring Street Treats</div><h2>Sundae<br>Showdown</h2></div><div class="wk">${w.label}<br>${w.range}</div></div>
+    ${sideBlock('frat')}${sideBlock('sorority')}
+    ${last?`<div class="lastwk"><b>Last week:</b> ${h(last)}</div>`:''}
+    <div class="pfoot"><span>Order a chapter's sundae to vote with your spoon. Or tell us the chapter's name with any order and it supports them too.</span><span class="price">${money(S.settings.sundaePrice)}</span></div>
+  </div></div></section>
+  <section class="card stack"><h2>Sundae photos</h2><p class="small muted" style="margin:0">The first time staff make a chapter's sundae, snap a photo and add it here. It replaces the sketch on the board.</p>
+    <div class="grid3">${ids.map(id=>`<div class="row" style="flex-wrap:nowrap"><div class="sub-art" style="width:56px;height:56px;flex:none">${artFor(id,S.subs[id],56)}</div><div style="min-width:0"><b class="small">${h(org(id).short)} · ${h((S.subs[id]||{}).sundaeName||'')}</b><div><label class="btn small" for="ph-${id}">${S.photos[id]?'Replace photo':'Add photo'}</label><input type="file" id="ph-${id}" data-photo="${id}" accept="image/*" hidden></div></div></div>`).join('')}</div></section>`;
+}
+
+/* ---------------- render ---------------- */
+function snapshotInputs(){const vals={};document.querySelectorAll('#main input[id],#main select[id],#main textarea[id]').forEach(el=>{if(el.type==='file')return;vals[el.id]=(el.type==='checkbox'||el.type==='radio')?{c:el.checked}:{v:el.value}});const a=document.activeElement;return{vals,focus:a&&a.id?{id:a.id,s:a.selectionStart,e:a.selectionEnd}:null}}
+function restoreInputs(snap){for(const id in snap.vals){const el=document.getElementById(id);if(!el)continue;const x=snap.vals[id];if('c' in x)el.checked=x.c;else if(el.tagName!=='SELECT'||[...el.options].some(o=>o.value===x.v))el.value=x.v}
+  if(snap.focus){const el=document.getElementById(snap.focus.id);if(el){el.focus({preventScroll:true});try{if(snap.focus.s!=null)el.setSelectionRange(snap.focus.s,snap.focus.e)}catch(e){}}}}
+let lastRoute=null;
+function render(){
+  const route=(location.hash||'').slice(1)||'overview'; S.route=ROUTES.some(r=>r[0]===route)?route:'overview';
+  renderNav();
+  const same=lastRoute===S.route; const snap=same?snapshotInputs():null;
+  const v={overview:vOverview,outreach:vOutreach,signup:vSignup,signups:vSignups,matchups:vMatchups,scoreboard:vScoreboard,'menu-board':vMenuBoard}[S.route];
+  $('#main').innerHTML=v();
+  if(snap) restoreInputs(snap);
+  if(!same) window.scrollTo(0,0);
+  lastRoute=S.route;
+  wire();
+}
+let rT=null; function schedule(){clearTimeout(rT);rT=setTimeout(render,30)}
+
+/* ---------------- interactions ---------------- */
+function updateSignupBits(){
+  const f=$('#signup-form'); if(!f) return;
+  const orgId=$('#f-org').value; const o=S.orgs[orgId];
+  const rs=$('#f-rival'); const cur=rs.value;
+  rs.innerHTML='<option value="">No preference, match us by size</option>'+(o?orgList(o.side).filter(x=>x.id!==orgId).map(x=>`<option value="${x.id}">${h(x.name)} (${x.members})</option>`).join(''):'');
+  if([...rs.options].some(op=>op.value===cur)) rs.value=cur;
+  const sub=collectSundae();
+  $('#sundae-prev').innerHTML=`${sundaeSVG(sub,160)}<div class="nm">${h(sub.sundaeName||'Your sundae')}</div><div class="small muted" style="text-align:center">${h([...sub.bases,sub.vessel,...sub.toppings,...sub.sauces].filter(Boolean).join(' · ')||'Pick a flavor to start')}</div>`;
+}
+function collectSundae(){
+  const vals=n=>[...document.querySelectorAll(`input[name="${n}"]:checked`)].map(x=>x.value);
+  return {bases:vals('f-base'),vessel:vals('f-vessel')[0]||'',toppings:vals('f-top'),sauces:vals('f-sauce'),sundaeName:($('#f-sname')||{}).value||''};
+}
+async function submitSignup(e){
+  e.preventDefault(); const msg=$('#form-msg'); const say=t=>{msg.textContent=t;msg.style.color='var(--bad)'};
+  if(!S.db){say('Sign-ups need the season database. Open this page in claude.ai while signed in.');return}
+  const orgId=$('#f-org').value, name=$('#f-name').value.trim(), email=$('#f-email').value.trim();
+  const sun=collectSundae(); const weeks=[...document.querySelectorAll('input[name="f-week"]:checked')].map(x=>x.value);
+  if(!orgId) return say('Choose your chapter.'); if(!name) return say('Add your name.'); if(!/^\S+@\S+\.\S+$/.test(email)) return say('Add an email we can reach you at.');
+  if(!weeks.length) return say('Pick at least one week.'); if(!sun.bases.length) return say('Pick a soft serve flavor.'); if(!sun.vessel) return say('Pick a cup or cone.');
+  if(!sun.sundaeName.trim()) return say('Give your sundae a name.');
+  const btn=$('#f-submit'); btn.disabled=true; msg.style.color='var(--muted)'; msg.textContent='Saving...';
+  let sketchId='',sketchUrl='';
+  if(S.ui.sketchFile){ if(S.assets){try{const up=await S.assets.upload(S.ui.sketchFile);sketchId=up.id;sketchUrl=up.url}catch(err){msg.textContent='The sketch could not upload ('+(err.code||'error')+'). Saving the rest.'}} }
+  const prev=S.subs[orgId];
+  const doc={orgId,contactName:name,contactRole:$('#f-role').value.trim(),contactEmail:email,contactPhone:$('#f-phone').value.trim(),rival:$('#f-rival').value,weeks,...sun,sundaeName:sun.sundaeName.trim(),description:$('#f-desc').value.trim(),
+    sketchId:sketchId||(prev&&prev.sketchId)||'',sketchUrl:sketchUrl||(prev&&prev.sketchUrl)||'',submittedAt:(prev&&prev.submittedAt)||new Date().toISOString(),updatedAt:new Date().toISOString(),demo:false};
+  try{await S.db.doc('submissions/'+orgId).set(doc);S.subs[orgId]=doc;S.ui.signupDone={orgId,sub:doc};S.ui.sketchFile=null;S.ui.sketchUrl=null;render()}
+  catch(err){btn.disabled=false;say(err.code==='not_granted'?'You need edit or contributor access to this page to sign up.':'Could not save: '+(err.message||err.code))}
+}
+function wire(){
+  const r=S.route;
+  if(r==='outreach'&&$('#tpl-subj')){
+    const upd=()=>{const o=org(S.ui.previewOrg);const v={...o,presFirst:maskWord(o.presFirst)};
+      $('#prev-email').innerHTML=`<span class="subj">${h(merge($('#tpl-subj').value,v))}</span>${h(merge($('#tpl-body').value,v))}`;$('#prev-dm').textContent=merge($('#tpl-dm').value,v);
+      $('#prev-to').textContent=`To: ${presName(o)} <${maskEmail(o.presEmail)}>`;$('#prev-dm-to').textContent='Instagram DM to '+(o.ig||'(none)')};
+    ['#tpl-subj','#tpl-body','#tpl-dm'].forEach(s=>$(s).addEventListener('input',upd)); upd();
+    $('#prev-org').onchange=e=>{S.ui.previewOrg=e.target.value;upd()};
+    $('#tpl-save').onclick=()=>saveSettings({emailSubject:$('#tpl-subj').value,emailBody:$('#tpl-body').value,dmBody:$('#tpl-dm').value},'Templates saved.');
+    $('#tpl-reset').onclick=()=>{$('#tpl-subj').value=DEFAULTS.emailSubject;$('#tpl-body').value=DEFAULTS.emailBody;$('#tpl-dm').value=DEFAULTS.dmBody;upd();toast('Default wording restored. Save to keep it.')};
+    document.querySelectorAll('[data-sel]').forEach(cb=>cb.onchange=()=>{S.ui.selected[cb.dataset.sel]=cb.checked;schedule()});
+    $('#sel-all').onclick=()=>{orgList().forEach(o=>S.ui.selected[o.id]=true);render()};
+    $('#sel-none').onclick=()=>{orgList().forEach(o=>S.ui.selected[o.id]=false);render()};
+    $('#send-email').onclick=e=>{if(!needEdit())return;const ids=orgList().filter(o=>S.ui.selected[o.id]!==false).map(o=>o.id);
+      armConfirm(e.currentTarget,`Confirm: email ${ids.length} chapters`,async()=>{const now=new Date().toISOString();let n=0;for(const id of ids){try{await S.db.doc('outreach/'+id).set({...(S.outreach[id]||{}),emailedAt:now,demo:true});n++}catch(err){toast('Could not log the send: '+(err.message||err.code));return}}
+        toast(SITE?`${n} personalized emails sent from ${SENDER}.`:`${n} personalized emails written and logged (demo mode). The live version sends them from SST's Gmail.`,5200)})};
+    document.querySelectorAll('[data-dm]').forEach(a=>a.addEventListener('click',ev=>{const o=org(a.dataset.dm);if(FILM){ev.preventDefault();setTimeout(()=>{location.href=a.href},1800)}const text=merge($('#tpl-dm').value,o);
+      S.ui.previewOrg=o.id; $('#prev-org').value=o.id; upd();
+      try{const p=navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(text):Promise.reject();p.then(()=>toast(SITE?`DM for ${o.short} copied. Opening their Instagram…`:`DM for ${o.short} copied. Paste it into the chat that just opened.`)).catch(()=>{selectText($('#prev-dm'));toast('Copy is blocked in this view, so the DM is selected in the preview. Press Cmd+C, then paste it in the chat.',5200)})}catch(err){}
+      if(S.canEdit&&S.db) S.db.doc('outreach/'+o.id).set({...(S.outreach[o.id]||{}),dmAt:new Date().toISOString(),demo:true}).catch(()=>{});
+    }));
+  }
+  if(r==='signup'){
+    if(S.ui.signupDone){$('#signup-again').onclick=()=>{S.ui.signupDone=null;render()};return}
+    const f=$('#signup-form'); f.addEventListener('change',updateSignupBits); f.addEventListener('input',e=>{if(e.target.id==='f-sname')updateSignupBits()});
+    f.querySelectorAll('[data-max]').forEach(g=>g.addEventListener('change',e=>{const max=+g.dataset.max;if(g.querySelectorAll('input:checked').length>max){e.target.checked=false;toast(`Pick up to ${max}.`);updateSignupBits()}}));
+    $('#f-sketch').onchange=e=>{const file=e.target.files[0];if(!file)return;if(file.size>15*1024*1024){toast('That image is over 15 MB. Try a smaller photo.');return}S.ui.sketchFile=file;try{if(S.ui.sketchUrl)URL.revokeObjectURL(S.ui.sketchUrl)}catch(x){}S.ui.sketchUrl=URL.createObjectURL(file);$('#sketch-thumb').innerHTML=`<img src="${S.ui.sketchUrl}" alt="Your sketch">`};
+    f.addEventListener('submit',submitSignup); updateSignupBits();
+  }
+  if(r==='signups'){
+    const a=$('#demo-add'); if(a) a.onclick=addDemoSignups;
+    const c=$('#demo-clear'); if(c) c.onclick=e=>{if(!needEdit())return;armConfirm(e.currentTarget,'Confirm: remove demo sign-ups',async()=>{for(const s of Object.values(S.subs).filter(s=>s.demo)){try{await S.db.doc('submissions/'+s.orgId).delete()}catch(err){}}toast('Demo sign-ups removed.')})};
+    if($('#reset-demo')) $('#reset-demo').onclick=e=>{if(!needEdit())return;armConfirm(e.currentTarget,'Confirm: reset demo season',async()=>{
+      const jobs=[...Object.values(S.subs).filter(s=>s.demo).map(s=>'submissions/'+s.orgId),'season/schedule',...Object.keys(S.results).map(k=>'results/'+k),...Object.keys(S.outreach).map(k=>'outreach/'+k),...Object.keys(S.photos).map(k=>'photos/'+k)];
+      for(const p of jobs){try{await S.db.doc(p).delete()}catch(err){}}toast('Demo season reset. Real sign-ups stay.')})};
+  }
+  if(r==='matchups'){
+    const g=$('#gen'); if(g) g.onclick=async()=>{if(!needEdit())return;try{await S.db.doc('season/schedule').set(buildSchedule());toast('Matchups generated.')}catch(err){toast('Could not save: '+(err.message||err.code))}};
+    const rg=$('#regen'); if(rg) rg.onclick=e=>{if(!needEdit())return;armConfirm(e.currentTarget,Object.keys(S.results).length?'Confirm: results stay, pairs may change':'Confirm: regenerate',async()=>{try{await S.db.doc('season/schedule').set(buildSchedule());toast('Matchups regenerated.')}catch(err){toast('Could not save: '+(err.message||err.code))}})};
+    const em=$('#email-matchups'); if(em) em.onclick=()=>{if(!needEdit())return;toast(`${scheduledTeams().length} matchup emails written (demo mode): each chapter gets its rival, its week and its sundae as SST will build it.`,5200)};
+  }
+  if(r==='scoreboard'){
+    document.querySelectorAll('[data-pct]').forEach(b=>b.onclick=()=>saveSettings({pct:+b.dataset.pct},`Payout set to ${b.dataset.pct}%.`));
+    document.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>saveSettings({finalistRule:b.dataset.rule},b.dataset.rule==='anyone'?'Finalists: top 3 by sundaes sold, win or lose.':'Finalists: top 3 weekly winners by sundaes sold.'));
+    document.querySelectorAll('[data-lb]').forEach(b=>b.onclick=()=>{S.ui.lbFilter=b.dataset.lb;render()});
+    document.querySelectorAll('[data-chart]').forEach(b=>b.onclick=()=>{S.ui.chart=b.dataset.chart;render()});
+    document.querySelectorAll('[data-up]').forEach(inp=>inp.onchange=async()=>{const file=inp.files[0];if(!file)return;const text=await file.text();scoreAndSave(inp.dataset.up,text,file.name,false)});
+    document.querySelectorAll('[data-demo]').forEach(b=>b.onclick=()=>{const id=b.dataset.demo;scoreAndSave(id,demoReportCSV(id),`square-items-detail-${id}-demo.csv`,true)});
+    document.querySelectorAll('[data-clear]').forEach(b=>b.onclick=e=>{if(!needEdit())return;armConfirm(e.currentTarget,'Confirm: clear',async()=>{try{await S.db.doc('results/'+b.dataset.clear).delete();toast('Week cleared.')}catch(err){toast('Could not clear: '+(err.message||err.code))}})});
+  }
+  if(r==='menu-board'){
+    const pw=$('#poster-week'); if(pw) pw.onchange=()=>{S.ui.posterWeek=pw.value;render()};
+    document.querySelectorAll('[data-photo]').forEach(inp=>inp.onchange=async()=>{if(!needEdit())return;const file=inp.files[0];if(!file)return;if(!S.assets){toast('Photo uploads are not available in this view.');return}
+      try{const up=await S.assets.upload(file);await S.db.doc('photos/'+inp.dataset.photo).set({assetId:up.id,url:up.url,addedAt:new Date().toISOString()});toast('Photo added to the board.')}catch(err){toast('Could not upload: '+(err.message||err.code))}});
+    const sv=$('#poster-save'); if(sv) sv.onclick=async()=>{
+      if(!window.html2canvas){toast('The image tool did not load. Take a screenshot of the board instead.');return}
+      if(!S.downloads){toast('Saving files is not available in this view. Take a screenshot of the board instead.');return}
+      sv.disabled=true;sv.textContent='Rendering...';
+      try{const canvas=await html2canvas($('#poster'),{scale:2,backgroundColor:null,useCORS:true});const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+        await S.downloads.save({filename:`showdown-${S.ui.posterWeek}-menu-board.png`,data:blob});toast('Menu board saved.')}
+      catch(err){toast(err&&err.code==='declined'?'Save cancelled.':'Could not save the image: '+((err&&(err.message||err.code))||'unknown error'))}
+      finally{sv.disabled=false;sv.textContent='Save as image'}};
+  }
+}
+function selectText(el){try{const rg=document.createRange();rg.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(rg)}catch(e){}}
+/* hover tooltips for chart marks */
+(function(){const tip=document.createElement('div');tip.className='tip';tip.hidden=true;document.body.appendChild(tip);
+  document.addEventListener('mousemove',e=>{const t=e.target.closest&&e.target.closest('[data-tip]');if(!t){tip.hidden=true;return}tip.textContent=t.getAttribute('data-tip');tip.hidden=false;
+    const x=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-8),y=Math.max(8,e.clientY-tip.offsetHeight-12);tip.style.left=x+'px';tip.style.top=y+'px'});
+  document.addEventListener('mouseleave',()=>tip.hidden=true);})();
+
+/* ---------------- boot ---------------- */
+window.addEventListener('hashchange',render);
+render();
+(async()=>{
+  const timer=setTimeout(()=>{S.timedOut=true;schedule()},10000);
+  let db=null,user=null;
+  if(!window.claude||typeof window.claude.use!=='function'){S.conn='no runtime';S.timedOut=true;clearTimeout(timer);schedule();return}
+  window.claude.use('user').then(u=>{S.user=u;S.canEdit=u?!!u.canEdit():false;schedule()}).catch(()=>{});
+  try{db=await window.claude.use('db')}catch(e){S.conn='db error: '+(e&&(e.code||e.message)||'unknown')}
+  if(!db){if(S.conn==='connecting')S.conn='db unavailable';S.timedOut=true;clearTimeout(timer);schedule();return}
+  S.conn='ok';
+  S.db=db;
+  window.claude.use('assets').then(a=>{S.assets=a}).catch(()=>{});
+  window.claude.use('downloads').then(d=>{S.downloads=d}).catch(()=>{});
+  const fail=e=>{console.warn(e);S.conn='read error: '+((e&&e.code)||'unknown');schedule()};
+  db.collection('orgs').onSnapshot(snap=>{clearTimeout(timer);S.orgs=Object.fromEntries(snap.docs.map(d=>[d.id,{id:d.id,...d.data()}]));S.loaded.orgs=true;schedule()},fail);
+  db.doc('config/settings').onSnapshot(snap=>{const d=snap.exists?snap.data():{};S.settings={...structuredClone(DEFAULTS),...d,limits:{...DEFAULTS.limits,...(d.limits||{})}};schedule()},fail);
+  db.collection('outreach').onSnapshot(snap=>{S.outreach=Object.fromEntries(snap.docs.map(d=>[d.id,d.data()]));schedule()},fail);
+  db.collection('submissions').onSnapshot(snap=>{S.subs=Object.fromEntries(snap.docs.map(d=>[d.id,d.data()]));schedule()},fail);
+  db.doc('season/schedule').onSnapshot(snap=>{S.schedule=snap.exists?snap.data():null;schedule()},fail);
+  db.collection('results').onSnapshot(snap=>{S.results=Object.fromEntries(snap.docs.map(d=>[d.id,d.data()]));schedule()},fail);
+  db.collection('photos').onSnapshot(snap=>{S.photos=Object.fromEntries(snap.docs.map(d=>[d.id,d.data()]));schedule()},fail);
+})();
+</script>
+
+</html>
